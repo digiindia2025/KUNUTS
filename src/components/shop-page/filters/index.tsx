@@ -4,7 +4,7 @@ import ColorsSection from "@/components/shop-page/filters/ColorsSection";
 import DressStyleSection from "@/components/shop-page/filters/DressStyleSection";
 import PriceSection from "@/components/shop-page/filters/PriceSection";
 import SizeSection from "@/components/shop-page/filters/SizeSection";
-import { Button } from "@/components/ui/button";
+import Button  from "@/components/ui/button";
 
 const Filters = () => {
   return (

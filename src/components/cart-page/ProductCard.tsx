@@ -5,7 +5,7 @@ import { PiTrashFill } from "react-icons/pi";
 import Image from "next/image";
 import Link from "next/link";
 import CartCounter from "@/components/ui/CartCounter";
-import { Button } from "../ui/button";
+import Button from "@/components/ui/button";
 import {
   addToCart,
   CartItem,
@@ -46,7 +46,7 @@ const ProductCard = ({ data }: ProductCardProps) => {
           </Link>
           <Button
             variant="ghost"
-            size="icon"
+            size="small"
             className="h-5 w-5 md:h-9 md:w-9"
             onClick={() =>
               dispatch(

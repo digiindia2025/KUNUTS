@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "../ui/Rating";
 import { IoEllipsisHorizontal } from "react-icons/io5";
-import { Button } from "../ui/button";
+import Button from "@/components/ui/button";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { Review } from "@/types/review.types";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ const ReviewCard = ({
           readonly
         />
         {isAction && (
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="small">
             <IoEllipsisHorizontal className="text-black/40 text-2xl" />
           </Button>
         )}

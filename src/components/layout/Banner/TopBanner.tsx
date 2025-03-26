@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Button  from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +16,7 @@ const TopBanner = () => {
         <Button
           variant="ghost"
           className="hover:bg-transparent absolute right-0 top-1/2 -translate-y-1/2 w-fit h-fit p-1 hidden sm:flex"
-          size="icon"
+          size="small"
           type="button"
           aria-label="close banner"
         >

@@ -20,7 +20,7 @@ const Sidebar = () => {
     { id: 2, type: "Work", address: "456, Noida, UP, India", phone: "9876543210" },
   ]);
 
-  const [editingAddressId, setEditingAddressId] = useState(null);
+  const [editingAddressId, setEditingAddressId] = useState<number | null>(null);
   const [newAddress, setNewAddress] = useState({ type: "", address: "", phone: "" });
 
   // Handle Profile Edit & Save
@@ -33,9 +33,9 @@ const Sidebar = () => {
   };
 
   // Handle Address Edit, Save, Delete
-  const handleAddressEdit = (id) => setEditingAddressId(id);
+  const handleAddressEdit = (id: number) => setEditingAddressId(id);
   const handleAddressSave = () => setEditingAddressId(null);
-  const handleAddressDelete = (id) => setAddresses(addresses.filter((addr) => addr.id !== id));
+  const handleAddressDelete = (id: number) => setAddresses(addresses.filter((addr) => addr.id !== id));
 
   // Handle Address Add
   const handleAddAddress = () => {
@@ -53,10 +53,16 @@ const Sidebar = () => {
         <div className="mb-4">
           <h3 className="font-semibold text-gray-300">ACCOUNT SETTINGS</h3>
           <ul>
-            <li className={`cursor-pointer p-2 rounded-md ${selectedItem === "Profile Information" ? "bg-gray-700" : "hover:bg-gray-700"}`} onClick={() => setSelectedItem("Profile Information")}>
+            <li
+              className={`cursor-pointer p-2 rounded-md ${selectedItem === "Profile Information" ? "bg-gray-700" : "hover:bg-gray-700"}`}
+              onClick={() => setSelectedItem("Profile Information")}
+            >
               Profile Information
             </li>
-            <li className={`cursor-pointer p-2 rounded-md ${selectedItem === "Manage Addresses" ? "bg-gray-700" : "hover:bg-gray-700"}`} onClick={() => setSelectedItem("Manage Addresses")}>
+            <li
+              className={`cursor-pointer p-2 rounded-md ${selectedItem === "Manage Addresses" ? "bg-gray-700" : "hover:bg-gray-700"}`}
+              onClick={() => setSelectedItem("Manage Addresses")}
+            >
               Manage Addresses
             </li>
           </ul>
@@ -64,8 +70,12 @@ const Sidebar = () => {
         <div className="mb-4">
           <h3 className="font-semibold text-gray-300">SUPPORT</h3>
           <ul>
-            <li className="cursor-pointer p-2 hover:bg-gray-700 rounded-md" onClick={() => router.push("/orders")}>Track Order</li>
-            <li className="cursor-pointer p-2 hover:bg-gray-700 rounded-md" onClick={() => router.push("/Contact")}>Help Center</li>
+            <li className="cursor-pointer p-2 hover:bg-gray-700 rounded-md" onClick={() => router.push("/orders")}>
+              Track Order
+            </li>
+            <li className="cursor-pointer p-2 hover:bg-gray-700 rounded-md" onClick={() => router.push("/Contact")}>
+              Help Center
+            </li>
           </ul>
         </div>
         <button className="p-2 bg-red-600 hover:bg-red-700 text-white w-full rounded-md mt-4" onClick={() => router.push("/signin")}>
@@ -80,17 +90,31 @@ const Sidebar = () => {
             {editingProfile ? (
               <div>
                 {Object.keys(profile).map((key) => (
-                  <input key={key} type="text" className="block border p-2 mb-2 w-full" value={profile[key]} onChange={(e) => setProfile({ ...profile, [key]: e.target.value })} />
+                  <input
+                    key={key}
+                    type="text"
+                    className="block border p-2 mb-2 w-full"
+                    value={profile[key as keyof typeof profile]} // ✅ Fix
+                    onChange={(e) =>
+                      setProfile({ ...profile, [key]: e.target.value } as typeof profile)
+                    }
+                  />
                 ))}
-                <button className="text-green-500" onClick={handleProfileSave}>Save</button>
+                <button className="text-green-500" onClick={handleProfileSave}>
+                  Save
+                </button>
               </div>
             ) : (
               <div>
                 {Object.entries(profile).map(([key, value]) => (
                   <p key={key}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}</p>
                 ))}
-                <button className="text-blue-500" onClick={handleProfileEdit}>Edit</button>
-                <button className="ml-2 text-red-500" onClick={handleProfileDelete}>Delete</button>
+                <button className="text-blue-500" onClick={handleProfileEdit}>
+                  Edit
+                </button>
+                <button className="ml-2 text-red-500" onClick={handleProfileDelete}>
+                  Delete
+                </button>
               </div>
             )}
           </div>
@@ -102,25 +126,56 @@ const Sidebar = () => {
               <div key={addr.id} className="mb-2 p-2 border rounded">
                 {editingAddressId === addr.id ? (
                   <div>
-                    <input type="text" className="block border p-2 mb-2 w-full" value={addr.address} onChange={(e) => setAddresses(addresses.map(a => a.id === addr.id ? { ...a, address: e.target.value } : a))} />
-                    <input type="text" className="block border p-2 mb-2 w-full" value={addr.phone} onChange={(e) => setAddresses(addresses.map(a => a.id === addr.id ? { ...a, phone: e.target.value } : a))} />
-                    <button className="text-green-500" onClick={() => handleAddressSave(addr.id)}>Save</button>
+                    <input
+                      type="text"
+                      className="block border p-2 mb-2 w-full"
+                      value={addr.address}
+                      onChange={(e) =>
+                        setAddresses(addresses.map((a) => (a.id === addr.id ? { ...a, address: e.target.value } : a)))
+                      }
+                    />
+                    <input
+                      type="text"
+                      className="block border p-2 mb-2 w-full"
+                      value={addr.phone}
+                      onChange={(e) =>
+                        setAddresses(addresses.map((a) => (a.id === addr.id ? { ...a, phone: e.target.value } : a)))
+                      }
+                    />
+                    <button className="text-green-500" onClick={handleAddressSave}> {/* ✅ Fix */}
+                      Save
+                    </button>
                   </div>
                 ) : (
                   <div>
                     <p>{addr.type}: {addr.address}</p>
                     <p>Phone: {addr.phone}</p>
-                    <button className="text-blue-500" onClick={() => handleAddressEdit(addr.id)}>Edit</button>
-                    <button className="ml-2 text-red-500" onClick={() => handleAddressDelete(addr.id)}>Delete</button>
+                    <button className="text-blue-500" onClick={() => handleAddressEdit(addr.id)}>
+                      Edit
+                    </button>
+                    <button className="ml-2 text-red-500" onClick={() => handleAddressDelete(addr.id)}>
+                      Delete
+                    </button>
                   </div>
                 )}
               </div>
             ))}
             <h3 className="mt-4">Add New Address</h3>
             {Object.keys(newAddress).map((key) => (
-              <input key={key} type="text" placeholder={key.charAt(0).toUpperCase() + key.slice(1)} className="block border p-2 mb-2 w-full" value={newAddress[key]} onChange={(e) => setNewAddress({ ...newAddress, [key]: e.target.value })} />
+              <input
+                key={key}
+                type="text"
+                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                className="block border p-2 mb-2 w-full"
+                value={newAddress[key as keyof typeof newAddress]} // ✅ Fix
+                onChange={(e) =>
+                  setNewAddress({ ...newAddress, [key]: e.target.value })
+                }
+              />
             ))}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleAddAddress}>Add Address</button>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleAddAddress}>
+              Add Address
+            </button>
           </div>
         )}
       </div>

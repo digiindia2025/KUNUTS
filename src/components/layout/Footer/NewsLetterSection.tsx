@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import Button  from "@/components/ui/button";
 import InputGroup from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 import { integralCF } from "@/styles/fonts";

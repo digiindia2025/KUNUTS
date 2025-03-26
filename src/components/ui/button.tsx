@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/lib/utils"; // Ensure this utility is properly imported
+import clsx from "clsx"; // Ensure clsx is installed: `npm install clsx`
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,11 +11,11 @@ export interface ButtonProps
 export const buttonVariants = ({
   variant = "primary",
   size = "medium",
-}: {
-  variant: ButtonProps["variant"];
-  size?: ButtonProps["size"];
-}) => {
-  const variants = {
+}: Required<Pick<ButtonProps, "variant" | "size">>) => {
+  const variants: Record<
+    NonNullable<ButtonProps["variant"]>,
+    string
+  > = {
     primary: "bg-blue-600 text-white hover:bg-blue-700",
     secondary: "bg-gray-600 text-white hover:bg-gray-700",
     success: "bg-green-600 text-white hover:bg-green-700",
@@ -24,7 +24,7 @@ export const buttonVariants = ({
     ghost: "text-gray-600 hover:bg-gray-100",
   };
 
-  const sizes = {
+  const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
     small: "px-2 py-1 text-sm",
     medium: "px-4 py-2",
     large: "px-6 py-3 text-lg",
@@ -33,7 +33,7 @@ export const buttonVariants = ({
   return `${variants[variant]} ${sizes[size]}`;
 };
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   className,
   children,
   variant = "primary",
@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={cn(
+      className={clsx(
         "rounded-md transition font-medium",
         buttonVariants({ variant, size }),
         className
@@ -54,5 +54,4 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
-// Ensure ButtonProps and buttonVariants are exported
-export { ButtonProps };
+export default Button; // ✅ Use default export instead of named export

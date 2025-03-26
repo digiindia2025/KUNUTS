@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { useRouter } from "next/navigation"; // Import useRouter for redirection
 import { motion } from "framer-motion";
 

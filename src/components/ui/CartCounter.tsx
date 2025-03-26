@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +48,7 @@ const CartCounter = ({
     >
       <Button
         variant="ghost"
-        size="icon"
+        size="small"
         type="button"
         className="h-5 w-5 sm:h-6 sm:w-6 text-xl hover:bg-transparent"
         onClick={() => remove()}
@@ -60,7 +60,7 @@ const CartCounter = ({
       </span>
       <Button
         variant="ghost"
-        size="icon"
+        size="small"
         type="button"
         className="h-5 w-5 sm:h-6 sm:w-6 text-xl hover:bg-transparent"
         onClick={() => addToCart()}
