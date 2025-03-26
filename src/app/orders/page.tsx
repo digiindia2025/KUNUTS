@@ -2,11 +2,13 @@
 import React, { useState } from "react";
 
 const OrderPage = () => {
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [reviews, setReviews] = useState({});
-  const [newReview, setNewReview] = useState("");
-  const [rating, setRating] = useState(0);
-  const [image, setImage] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<
+    Record<string, { text: string; rating: number; image: File | null }[]>
+  >({});
+  const [newReview, setNewReview] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
+  const [image, setImage] = useState<File | null>(null);
 
   const orders = [
     {
@@ -24,45 +26,45 @@ const OrderPage = () => {
         { label: "Delivered", date: "Nov 09, 2023" },
       ],
     },
-
-
-
     {
-        id: "#DRYFRUITS1024",
-        date: "11th March 2025",
-        product: "Dates",
-        brand: "California Dates",
-        size: "100g",
-        quantity: 1,
-        price: "$20",
-        status: "Ready for Delivery",
-        expectedDelivery: "18th March 2025",
-        timeline: [
-          { label: "Order Confirmed", date: "Nov 05, 2024" },
-          { label: "Delivered", date: "March 019, 2025" },
-        ],
-      },
-    // Add more products...
+      id: "#DRYFRUITS1024",
+      date: "11th March 2025",
+      product: "Dates",
+      brand: "California Dates",
+      size: "100g",
+      quantity: 1,
+      price: "$20",
+      status: "Ready for Delivery",
+      expectedDelivery: "18th March 2025",
+      timeline: [
+        { label: "Order Confirmed", date: "Nov 05, 2024" },
+        { label: "Delivered", date: "March 19, 2025" },
+      ],
+    },
   ];
 
-  const handleAddReview = (orderId) => {
-    if (!newReview) return;
-    setReviews({
-      ...reviews,
-      [orderId]: [
-        ...(reviews[orderId] || []),
-        { text: newReview, rating, image },
-      ],
-    });
+  const handleAddReview = (orderId: string) => {
+    if (!newReview.trim()) return;
+
+    setReviews((prevReviews) => ({
+      ...prevReviews,
+      [orderId]: [...(prevReviews[orderId] || []), { text: newReview, rating, image }],
+    }));
+
     setNewReview("");
     setRating(0);
     setImage(null);
   };
 
-  const handleDeleteReview = (orderId, index) => {
-    const updatedReviews = [...reviews[orderId]];
-    updatedReviews.splice(index, 1);
-    setReviews({ ...reviews, [orderId]: updatedReviews });
+  const handleDeleteReview = (orderId: string, index: number) => {
+    setReviews((prevReviews) => {
+      if (!prevReviews[orderId]) return prevReviews;
+
+      const updatedReviews = [...prevReviews[orderId]];
+      updatedReviews.splice(index, 1);
+
+      return { ...prevReviews, [orderId]: updatedReviews };
+    });
   };
 
   return (
@@ -119,14 +121,9 @@ const OrderPage = () => {
                   </button>
 
                   {/* Reviews Section */}
-                  <h4 className="text-xl font-semibold mt-6">
-                    Reviews & Ratings
-                  </h4>
+                  <h4 className="text-xl font-semibold mt-6">Reviews & Ratings</h4>
                   {reviews[order.id]?.map((review, index) => (
-                    <div
-                      key={index}
-                      className="p-4 border rounded-lg mt-2 relative"
-                    >
+                    <div key={index} className="p-4 border rounded-lg mt-2 relative">
                       <p className="font-semibold">Rating: {review.rating}⭐</p>
                       <p>{review.text}</p>
                       {review.image && (
@@ -158,12 +155,13 @@ const OrderPage = () => {
                     className="border rounded w-full p-2 mt-2"
                     placeholder="Give rating (1-5)"
                     value={rating}
-                    onChange={(e) => setRating(e.target.value)}
+                    onChange={(e) => setRating(Number(e.target.value))}
                   />
                   <input
                     type="file"
                     className="mt-2"
-                    onChange={(e) => setImage(e.target.files[0])}
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
                   />
                   <button
                     className="mt-4 py-2 px-4 bg-green-600 text-white rounded-full hover:bg-green-700"

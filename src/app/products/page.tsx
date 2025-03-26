@@ -15,35 +15,37 @@ const products = [
     id: 1,
     name: "Premium Almonds",
     price: 499,
-    image: "/images/almonds.jpg",
+    image: "/images/dress-style-4.png",
     description: "Fresh and crunchy premium quality almonds.",
   },
   {
     id: 2,
     name: "Cashew Nuts",
     price: 599,
-    image: "/images/cashews.jpg",
+    image: "/images/DRYF120_0.jpg",
     description: "Rich and creamy cashew nuts, perfect for snacking.",
   },
   {
     id: 3,
     name: "Walnuts",
     price: 699,
-    image: "/images/walnuts.jpg",
+    image: "/images/DRYF119_0.jpg",
     description: "Organic walnuts with amazing health benefits.",
   },
   {
     id: 4,
     name: "Pistachios",
     price: 649,
-    image: "/images/pistachios.jpg",
+    image: "/images/DRYF120_0.jpg",
     description: "Salted and roasted pistachios for an irresistible taste.",
   },
 ];
 
 export default function SidebarExample() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(sidebarOptions.find(option => option.id === "products")); // Default "Our Products"
+  const [selectedOption, setSelectedOption] = useState(
+    sidebarOptions.find(option => option.id === "products") || sidebarOptions[0]
+  ); // Default: "Our Products"
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-6 relative">
@@ -76,7 +78,7 @@ export default function SidebarExample() {
             <li
               key={option.id}
               className={`cursor-pointer px-4 py-2 rounded-md transition-all ${
-                selectedOption.id === option.id
+                selectedOption?.id === option.id
                   ? "bg-blue-600 text-white font-semibold shadow-md"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
@@ -101,10 +103,12 @@ export default function SidebarExample() {
 
       {/* Dynamic Content */}
       <section className="flex-1 bg-gray-100 p-6 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-gray-800">{selectedOption.title}</h1>
+        <h1 className="text-3xl font-bold text-gray-800">
+          {selectedOption?.title || "Select an Option"}
+        </h1>
 
         {/* If "Our Products" is selected, show products */}
-        {selectedOption.id === "products" ? (
+        {selectedOption?.id === "products" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {products.map((product) => (
               <div
@@ -130,7 +134,7 @@ export default function SidebarExample() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-600 mt-4">{selectedOption.content}</p>
+          <p className="text-gray-600 mt-4">{selectedOption?.content}</p>
         )}
       </section>
     </main>

@@ -50,7 +50,7 @@ const policyDetails = {
 };
 
 export default function PolicyPage() {
-  const [selectedCategory, setSelectedCategory] = useState("Privacy Policy"); // Default to Privacy Policy
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof policyDetails>("Privacy Policy"); // Default to Privacy Policy
   const [selectedSection, setSelectedSection] = useState(policyDetails["Privacy Policy"][0]);
 
   return (
@@ -67,8 +67,8 @@ export default function PolicyPage() {
                   selectedCategory === category ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100"
                 }`}
                 onClick={() => {
-                  setSelectedCategory(category);
-                  setSelectedSection(policyDetails[category][0]);
+                  setSelectedCategory(category as keyof typeof policyDetails);
+                  setSelectedSection(policyDetails[category as keyof typeof policyDetails][0]);
                 }}
               >
                 {category}
@@ -76,7 +76,7 @@ export default function PolicyPage() {
               {/* Policy Sections */}
               {selectedCategory === category && (
                 <ul className="mt-2 space-y-2">
-                  {policyDetails[category].map((item) => (
+                  {policyDetails[category as keyof typeof policyDetails].map((item) => (
                     <li
                       key={item.id}
                       className={`cursor-pointer px-4 py-2 rounded-md transition-all ${
