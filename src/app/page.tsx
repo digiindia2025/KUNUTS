@@ -3,12 +3,6 @@ import ProductListSec from "@/components/common/ProductListSec";
 import Brands from "@/components/homepage/Brands";
 import DressStyle from "@/components/homepage/DressStyle";
 import Header from "@/components/homepage/Header/index.jsx";
-import Customize from "@/components/homepage/Header/Customize.jsx";
-import ProgressBar from "@/components/homepage/Header/ProgressBar.jsx";
-import ColorPicker from "@/components/homepage/Header/ColorPicker.jsx";
-import CandyPreview from "@/components/homepage/Header/CandyPreview.jsx";
-import StepNavigation from "@/components/homepage/Header/StepNavigation.jsx";
-import HoverToolbar from "@/components/homepage/Header/HoverToolbar";
 import Reviews from "@/components/homepage/Reviews";
 import { Product } from "@/types/product.types";
 import { Review } from "@/types/review.types";
@@ -202,7 +196,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <ProgressBar currentStep={1} />
+      {/* <ProgressBar currentStep={1} />
       <ColorPicker 
         selectedColors={[]} 
         onSelectColor={(color: string) => console.log(color)} 
@@ -220,7 +214,7 @@ export default function Home() {
       />
       <HoverToolbar
         onReset={() => {}}
-      />
+      /> */}
             <Brands />
 
       <main className="my-[50px] sm:my-[72px]">
