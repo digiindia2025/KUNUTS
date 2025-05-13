@@ -1,38 +1,35 @@
 
-"use client";
-
 import React, { useEffect, useState } from 'react';
 import { toast } from "sonner";
 
 const CandyPreview = ({ selectedColors }) => {
   const [candies, setCandies] = useState([]);
-  const [customText, setCustomText] = useState('');
   
   // Get the color values from the keys
-  const getColorValue = (key) => {
-    const colorMap = {
-      yellow: '#FFCC00',
-      pink: '#FF99CC',
-      lightBlue: '#99CCFF',
-      green: '#66CC66',
-      orange: '#FF9933',
-      purple: '#CC99CC',
-      red: '#FF6666',
-      brown: '#8B4513',
-      blue: '#1E88E5',
-      white: '#FFFFFF',
-      peach: '#FFDAB9',
-      cream: '#FFF8E1',
-      darkPink: '#E91E63',
-      darkGreen: '#2E7D32',
-      darkYellow: '#FFC107',
-      aqua: '#00BCD4',
-      platinum: '#E5E5E5',
-      lightPurple: '#D1C4E9',
-      pearl: '#F5F5F5',
-      gray: '#CCCCCC'
-    };
-    return colorMap[key] || '#CCCCCC';
+  const getColorValue = (colorKey) => {
+    const colorOptions = [
+      { name: 'Dark Blue', value: '#000080', key: 'darkBlue' },
+      { name: 'Black', value: '#000000', key: 'black' },
+      { name: 'Purple', value: '#800080', key: 'purple' },
+      { name: 'Maroon', value: '#800000', key: 'maroon' },
+      { name: 'Brown', value: '#8B4513', key: 'brown' },
+      { name: 'White', value: '#FFFFFF', key: 'white' },
+      { name: 'Blue', value: '#0074BC', key: 'blue' },
+      { name: 'Red', value: '#BC0034', key: 'red' },
+      { name: 'Yellow', value: '#F9D71C', key: 'yellow' },
+      { name: 'Pearl', value: '#F5F5F5', key: 'pearl' },
+      { name: 'Pink', value: '#F5A3C7', key: 'pink' },
+      { name: 'Light Blue', value: '#A3E0F5', key: 'lightBlue' },
+      { name: 'Dark Green', value: '#007C36', key: 'darkGreen' },
+      { name: 'Platinum', value: '#E5E4E2', key: 'platinum' },
+      { name: 'Orange', value: '#FF5C00', key: 'orange' },
+      { name: 'Light Purple', value: '#C1A7E2', key: 'lightPurple' },
+      { name: 'Dark Pink', value: '#D6218F', key: 'darkPink' },
+      { name: 'Dark Yellow', value: '#EFAA22', key: 'darkYellow' },
+    ];
+    
+    const foundColor = colorOptions.find(c => c.key === colorKey);
+    return foundColor ? foundColor.value : '#CCCCCC';
   };
   
   useEffect(() => {
@@ -42,19 +39,17 @@ const CandyPreview = ({ selectedColors }) => {
       
       const newCandies = [];
       const count = 40; // Number of candies to generate
-      const predefinedTexts = ['hello', 'Love', 'Joy', 'Happy\nMother\'s\nDay!'];
       
       for (let i = 0; i < count; i++) {
         // Choose a random color from selected colors
-        const colorKey = selectedColors[Math.floor(Math.random() * selectedColors.length)].id;
-        const colorValue = getColorValue(colorKey);
+        const colorKey = selectedColors[Math.floor(Math.random() * selectedColors.length)];
         
         // Random position within the container
-        const x = 10 + Math.random() * 80; // 10-90% of width
-        const y = 10 + Math.random() * 80; // 10-90% of height
+        const x = 5 + Math.random() * 90; // 5-95% of width
+        const y = 5 + Math.random() * 90; // 5-95% of height
         
-        // Consistent size for all candies (32-36px)
-        const size = 32 + Math.random() * 4;
+        // Consistent size for all candies (36-40px)
+        const size = 36 + Math.random() * 4;
         
         // Random z-index for layering
         const zIndex = Math.floor(Math.random() * 10);
@@ -62,24 +57,14 @@ const CandyPreview = ({ selectedColors }) => {
         // Random rotation
         const rotation = Math.random() * 360;
         
-        // Randomly assign text to some candies
-        let text = '';
-        if (i % 5 === 0) {
-          text = predefinedTexts[Math.floor(Math.random() * predefinedTexts.length)];
-        } else if (i % 13 === 0 && customText) {
-          text = customText;
-        }
-        
         newCandies.push({
           id: i,
           colorKey,
-          colorValue,
           x,
           y,
           size,
           zIndex,
           rotation,
-          text
         });
       }
       
@@ -87,56 +72,53 @@ const CandyPreview = ({ selectedColors }) => {
     };
     
     setCandies(generateCandies());
-  }, [selectedColors, customText]);
+  }, [selectedColors]);
 
   const handleRefreshCandies = () => {
     setCandies(prev => {
       // Create new arrangement with same colors
       return prev.map(candy => ({
         ...candy,
-        x: 10 + Math.random() * 80,
-        y: 10 + Math.random() * 80,
+        x: 5 + Math.random() * 90,
+        y: 5 + Math.random() * 90,
         rotation: Math.random() * 360,
       }));
     });
     toast.success("Preview refreshed!");
   };
   
-  const handleTextChange = (e) => {
-    setCustomText(e.target.value);
-  };
-  
   return (
     <div className="flex flex-col space-y-4">
-      <div className="relative w-full h-[400px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+      <div className="relative w-full h-[400px] bg-white rounded-lg overflow-hidden border border-gray-200">
         {selectedColors.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-500 text-lg">Select colors to see your candy mix preview</p>
           </div>
         ) : (
           <>
-            {candies.map((candy) => (
-              <div
-                key={candy.id}
-                className="absolute rounded-full shadow-md flex items-center justify-center"
-                style={{
-                  backgroundColor: candy.colorValue,
-                  width: `${candy.size}px`,
-                  height: `${candy.size}px`,
-                  left: `${candy.x}%`,
-                  top: `${candy.y}%`,
-                  zIndex: candy.zIndex,
-                  transform: `rotate(${candy.rotation}deg)`,
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                {candy.text && (
-                  <span className="text-[8px] font-bold text-black whitespace-pre-line text-center">
-                    {candy.text}
-                  </span>
-                )}
-              </div>
-            ))}
+            {candies.map((candy) => {
+              const colorValue = getColorValue(candy.colorKey);
+              const isDark = colorValue !== '#FFFFFF' && colorValue !== '#F5F5F5' && colorValue !== '#E5E4E2' && colorValue !== '#A3E0F5';
+              
+              return (
+                <div
+                  key={candy.id}
+                  className="absolute rounded-full flex items-center justify-center transform transition-all duration-300"
+                  style={{
+                    backgroundColor: colorValue,
+                    width: `${candy.size}px`,
+                    height: `${candy.size}px`,
+                    left: `${candy.x}%`,
+                    top: `${candy.y}%`,
+                    zIndex: candy.zIndex,
+                    transform: `rotate(${candy.rotation}deg)`,
+                    boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.3), inset 0px -3px 6px rgba(0, 0, 0, 0.2), inset 0px 3px 6px rgba(255, 255, 255, 0.5)`,
+                  }}
+                >
+                  <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}>m</span>
+                </div>
+              );
+            })}
             <div className="absolute bottom-4 right-4 flex space-x-2">
               <button 
                 onClick={handleRefreshCandies}
@@ -149,37 +131,6 @@ const CandyPreview = ({ selectedColors }) => {
             </div>
           </>
         )}
-      </div>
-      
-      <div className="flex items-center space-x-2">
-        <div className="w-full">
-          <label htmlFor="customText" className="block text-sm font-medium text-gray-700 mb-1">
-            Add Custom Text
-          </label>
-          <div className="flex space-x-2">
-            <input
-              type="text"
-              id="customText"
-              value={customText}
-              onChange={handleTextChange}
-              placeholder="Enter text for candy"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-              maxLength={12}
-            />
-            <button 
-              onClick={() => {
-                if (customText) {
-                  setCustomText('');
-                  toast.info("Custom text cleared");
-                }
-              }}
-              className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
-            >
-              Clear
-            </button>
-          </div>
-          <p className="text-xs text-gray-500 mt-1">Text will appear on some candies (max 12 characters)</p>
-        </div>
       </div>
     </div>
   );
