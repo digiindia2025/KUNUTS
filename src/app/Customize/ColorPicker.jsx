@@ -1,4 +1,4 @@
-
+"use client";
 import React from 'react';
 
 const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
