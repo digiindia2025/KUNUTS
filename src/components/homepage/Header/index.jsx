@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Customize from "@/components/homepage/Header/Customize";
 
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { Separator } from "@/components/ui/separator";
@@ -28,15 +27,16 @@ const Header = () => {
     setShowContinueDialog(true);
   };
 
-    const handleContinue = () => {
+  const handleStartOver = () => {
     setShowContinueDialog(false);
-    navigate("/Customize"); // This will navigate to the Customize component
-    // Load previous data logic can go here
-  };
- const handleStartOver = () => {
-    setShowContinueDialog(false);
-    navigate("/Customize"); // This will navigate to the Customize component
+    router.push("/Customize");
     // Reset form data logic can go here
+  };
+
+  const handleContinue = () => {
+    setShowContinueDialog(false);
+    router.push("/Customize");
+    // Load previous data logic can go here
   };
 
   return (
