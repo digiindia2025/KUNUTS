@@ -1,11 +1,13 @@
-'use client';
+
 import React, { useState } from 'react';
-// import Header from '../components/Header';
-import ProgressBar from '../Header/ProgressBar';
-import ColorPicker from '../Header/ColorPicker';
-import CandyPreview from '../Header/CandyPreview';
-import StepNavigation from '../Header/StepNavigation';
-import HoverToolbar from '../Header/HoverToolbar';
+import Header from '../components/Header';
+import ProgressBar from '../components/ProgressBar';
+import ColorPicker from '../components/ColorPicker';
+import CandyPreview from '../components/CandyPreview';
+import HoverToolbar from '../components/HoverToolbar';
+import DesignOptions from '../components/DesignOptions';
+import { toast } from "sonner";
+// import StepNavigation from '../components/StepNavigation';
 
 const MAX_COLOR_SELECTIONS = 3;
 
@@ -14,27 +16,8 @@ const Customize = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
-  const colorOptions = [
-    { name: 'Yellow', hex: '#F9D71C', id: 'yellow' },
-    { name: 'Pink', hex: '#F5A3C7', id: 'pink' },
-    { name: 'Light Blue', hex: '#A3E0F5', id: 'lightBlue' },
-    { name: 'Blue', hex: '#1E88E5', id: 'blue' },
-    { name: 'Light Purple', hex: '#D1C4E9', id: 'lightPurple' },
-    { name: 'Dark Pink', hex: '#E91E63', id: 'darkPink' },
-    { name: 'White', hex: '#FFFFFF', id: 'white' },
-    { name: 'Dark Green', hex: '#2E7D32', id: 'darkGreen' },
-    { name: 'Orange', hex: '#FF9800', id: 'orange' },
-    { name: 'Red', hex: '#FF5252', id: 'red' },
-    { name: 'Brown', hex: '#795548', id: 'brown' },
-    { name: 'Cream', hex: '#FFF8E1', id: 'cream' },
-  ];
-
-  const handleColorSelection = (color) => {
-    if (selectedColors.includes(color)) {
-      setSelectedColors(selectedColors.filter(c => c !== color));
-    } else if (selectedColors.length < MAX_COLOR_SELECTIONS) {
-      setSelectedColors([...selectedColors, color]);
-    }
+  const handleColorSelection = (colors) => {
+    setSelectedColors(colors);
   };
 
   const handleNext = () => {
@@ -43,7 +26,7 @@ const Customize = () => {
       window.scrollTo(0, 0);
     } else {
       // Submit or finalize order
-      alert("Thank you for your order! This would proceed to checkout in a real app.");
+      toast.success("Thank you for your order! Proceeding to checkout...");
     }
   };
   
@@ -56,137 +39,74 @@ const Customize = () => {
   
   const handleReset = () => {
     setSelectedColors([]);
+    toast.info("Color selection reset");
+  };
+
+  // Render content based on current step
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            {/* Main content area - Takes 3/5 of the width on large screens */}
+            <div className="lg:col-span-3 bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-4xl font-bold mb-4">choose up to three colors</h2>
+              <p className="text-gray-600 mb-6">Light colors print best. Dark colors identified with '*' cannot be customized.<br />Click color again to remove it.</p>
+              
+              <CandyPreview selectedColors={selectedColors} />
+            </div>
+            
+            {/* Color Selection Sidebar - Takes 2/5 of the width on large screens */}
+            <div className="lg:col-span-2">
+              <ColorPicker 
+                selectedColors={selectedColors} 
+                onSelectColor={handleColorSelection} 
+                maxSelections={MAX_COLOR_SELECTIONS} 
+              />
+            </div>
+          </div>
+        );
+      case 2:
+        return <DesignOptions />;
+      default:
+        return <div>Invalid step</div>;
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Header /> */}
+      <Header />
       <HoverToolbar onReset={handleReset} />
       
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
-              customize your candy
-            </h1>
-            <div className="flex items-center space-x-4">
-              <button className="text-gray-500 hover:text-gray-700 flex items-center">
-                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 mr-1">
-                  <path d="M19 12H5M5 12L12 5M5 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Back
-              </button>
-            </div>
-          </div>
-          
-          {/* Step Progress */}
+        <div className="max-w-7xl mx-auto">
+          {/* Progress Steps */}
           <div className="mb-8 relative">
-            <div className="flex justify-between mb-1">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">
-                  ✓
-                </div>
-                <span className="ml-2 text-sm font-medium text-green-500">Colors</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">
-                  ✓
-                </div>
-                <span className="ml-2 text-sm font-medium text-green-500">Design</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs">
-                  3
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-500">Packaging</span>
-              </div>
-            </div>
-            <div className="h-1 bg-gray-200 rounded-full mt-2">
-              <div className="h-full bg-green-500 rounded-full" style={{ width: '66%' }}></div>
-            </div>
+            <ProgressBar currentStep={currentStep} />
           </div>
           
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h2 className="text-2xl font-bold mb-4">choose up to three colors</h2>
-                <p className="text-gray-600 mb-6">Looking for something specific? Contact us for custom color options.</p>
-                
-                <div className="grid grid-cols-4 gap-4">
-                  {colorOptions.map((color) => (
-                    <button
-                      key={color.id}
-                      onClick={() => handleColorSelection(color)}
-                      className={`relative flex flex-col items-center p-2 rounded-lg transition-all ${
-                        selectedColors.includes(color) ? 'ring-2 ring-yellow-400' : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <div 
-                        className="w-12 h-12 rounded-full mb-2 border border-gray-200"
-                        style={{ backgroundColor: color.hex }}
-                      ></div>
-                      <span className="text-xs text-center font-medium">{color.name}</span>
-                      {selectedColors.includes(color) && (
-                        <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full w-5 h-5 flex items-center justify-center text-xs text-white">
-                          ✓
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-                
-                <div className="mt-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold">Your selection ({selectedColors.length}/{MAX_COLOR_SELECTIONS})</h3>
-                    {selectedColors.length > 0 && (
-                      <button 
-                        onClick={handleReset}
-                        className="text-sm text-red-500 hover:text-red-700"
-                      >
-                        Clear all
-                      </button>
-                    )}
-                  </div>
-                  
-                  <div className="flex space-x-4">
-                    {[...Array(MAX_COLOR_SELECTIONS)].map((_, index) => (
-                      <div 
-                        key={index}
-                        className="w-16 h-16 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center"
-                      >
-                        {selectedColors[index] ? (
-                          <div 
-                            className="w-full h-full rounded-full"
-                            style={{ backgroundColor: selectedColors[index].hex }}
-                          ></div>
-                        ) : (
-                          <span className="text-gray-400 text-sm">+</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-4">Preview Your Mix</h3>
-                <CandyPreview selectedColors={selectedColors} />
-                
-                <div className="mt-8">
-                  <button 
-                    className={`w-full py-3 rounded-full font-medium ${
-                      selectedColors.length > 0 
-                        ? 'bg-yellow-400 hover:bg-yellow-500 text-black' 
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
-                    disabled={selectedColors.length === 0}
-                    onClick={handleNext}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </div>
+          {renderStepContent()}
+          
+          {/* Single Navigation Button Area */}
+          <div className="mt-8 flex justify-between">
+            <button
+              onClick={handlePrev}
+              className={`px-6 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 ${currentStep === 1 ? 'invisible' : ''}`}
+            >
+              Back
+            </button>
+            
+            <button 
+              className={`px-8 py-3 rounded-md font-medium ${
+                currentStep === 1 && selectedColors.length === 0 
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                  : 'bg-yellow-400 hover:bg-yellow-500 text-black font-bold text-xl'
+              }`}
+              disabled={currentStep === 1 && selectedColors.length === 0}
+              onClick={handleNext}
+            >
+              {currentStep === totalSteps ? 'Finish' : 'Next'}
+            </button>
           </div>
         </div>
       </main>

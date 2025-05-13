@@ -52,11 +52,11 @@ const TopNavbar = () => {
           </div>
           <Link href="/" className={cn([integralCF.className, "text-2xl lg:text-[32px] mb-2 mr-3 lg:mr-10"])}>
             <Image
-              src="/images/logo.avif"
+              src="/images/logo.jpg"
               alt="Logo"
               width={120}
               height={40}
-              className="h-auto w-auto md:w-[140px] md:h-[50px]"
+              className="h-auto w-auto md:w-[180px] md:h-[50px]"
               priority
             />
           </Link>

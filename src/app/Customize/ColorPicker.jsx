@@ -1,18 +1,26 @@
-"use client";
+
 import React from 'react';
 
 const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
   const colorOptions = [
-    { name: 'Yellow', value: '#FFCC00', key: 'yellow' },
-    { name: 'Pink', value: '#FF99CC', key: 'pink' },
-    { name: 'Light Blue', value: '#99CCFF', key: 'lightBlue' },
-    { name: 'Green', value: '#66CC66', key: 'green' },
-    { name: 'Orange', value: '#FF9933', key: 'orange' },
-    { name: 'Purple', value: '#CC99CC', key: 'purple' },
-    { name: 'Red', value: '#FF6666', key: 'red' },
+    { name: 'Dark Blue', value: '#000080', key: 'darkBlue' },
+    { name: 'Black', value: '#000000', key: 'black' },
+    { name: 'Purple', value: '#800080', key: 'purple' },
+    { name: 'Maroon', value: '#800000', key: 'maroon' },
     { name: 'Brown', value: '#8B4513', key: 'brown' },
-    { name: 'Peach', value: '#FFDAB9', key: 'peach' },
-    { name: 'Gray', value: '#CCCCCC', key: 'gray' }
+    { name: 'White', value: '#FFFFFF', key: 'white' },
+    { name: 'Blue', value: '#0074BC', key: 'blue' },
+    { name: 'Red', value: '#BC0034', key: 'red' },
+    { name: 'Yellow', value: '#F9D71C', key: 'yellow' },
+    { name: 'Pearl', value: '#F5F5F5', key: 'pearl' },
+    { name: 'Pink', value: '#F5A3C7', key: 'pink' },
+    { name: 'Light Blue', value: '#A3E0F5', key: 'lightBlue' },
+    { name: 'Dark Green', value: '#007C36', key: 'darkGreen' },
+    { name: 'Platinum', value: '#E5E4E2', key: 'platinum' },
+    { name: 'Orange', value: '#FF5C00', key: 'orange' },
+    { name: 'Light Purple', value: '#C1A7E2', key: 'lightPurple' },
+    { name: 'Dark Pink', value: '#D6218F', key: 'darkPink' },
+    { name: 'Dark Yellow', value: '#EFAA22', key: 'darkYellow' },
   ];
 
   const isSelected = (color) => {
@@ -31,57 +39,71 @@ const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
     }
   };
 
+  // Group colors into rows of 5 for display
+  const colorRows = [];
+  for (let i = 0; i < colorOptions.length; i += 5) {
+    colorRows.push(colorOptions.slice(i, i + 5));
+  }
+
   return (
     <div className="mt-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">choose up to {maxSelections} colors</h2>
-      <p className="text-gray-600 mb-6">personalize your special candy mix with your favorite colors</p>
-      
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-        {colorOptions.map((color) => (
-          <div key={color.key} className="flex flex-col items-center">
-            <button
-              onClick={() => handleColorClick(color)}
-              disabled={!canSelect(color) && !isSelected(color)}
-              className={`w-16 h-16 rounded-full transition-all duration-300 ${
-                isSelected(color) 
-                  ? 'ring-4 ring-black scale-110' 
-                  : canSelect(color)
-                    ? 'hover:scale-105 hover:shadow-lg'
-                    : 'opacity-50 cursor-not-allowed'
-              }`}
-              style={{ backgroundColor: color.value }}
-              aria-label={`Select ${color.name}`}
-            >
-              {isSelected(color) && (
-                <div className="flex items-center justify-center w-full h-full">
-                  <span className="text-white text-2xl">✓</span>
+      <div className="sidebar-container">
+        <div className="bg-white-custom p-4 rounded-lg w-full">
+          <h3 className="text-xl font-bold mb-4">Select Colors</h3>
+          
+          {colorRows.map((row, rowIndex) => (
+            <div key={rowIndex} className="color-grid mb-4">
+              {row.map((color) => (
+                <div key={color.key} className="flex flex-col items-center">
+                  <button
+                    onClick={() => handleColorClick(color)}
+                    disabled={!canSelect(color) && !isSelected(color)}
+                    className={`color-option ${
+                      isSelected(color) 
+                        ? 'color-option-selected' 
+                        : canSelect(color)
+                          ? 'hover:scale-105 hover:shadow-lg'
+                          : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    style={{ backgroundColor: color.value }}
+                    aria-label={`Select ${color.name}`}
+                  >
+                    <div className="flex items-center justify-center w-full h-full">
+                      <span className={`text-${color.value === '#FFFFFF' || color.value === '#F5F5F5' || color.value === '#E5E4E2' || color.value === '#A3E0F5' ? 'gray-700' : 'white'} text-xl font-bold`}>m</span>
+                    </div>
+                  </button>
+                  <span className="mt-1 text-xs font-medium text-gray-700">{color.name}</span>
                 </div>
-              )}
-            </button>
-            <span className="mt-2 text-sm font-medium text-gray-700">{color.name}</span>
-          </div>
-        ))}
-      </div>
-      
-      <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-        <p className="font-medium">Selected colors: {selectedColors.length}/{maxSelections}</p>
-        <div className="flex mt-2 space-x-2">
-          {selectedColors.map((colorKey) => {
-            const color = colorOptions.find(c => c.key === colorKey);
-            return (
-              <div 
-                key={colorKey}
-                className="w-8 h-8 rounded-full"
-                style={{ backgroundColor: color ? color.value : '#000' }}
-              ></div>
-            );
-          })}
-          {Array(maxSelections - selectedColors.length).fill(0).map((_, i) => (
-            <div 
-              key={i}
-              className="w-8 h-8 rounded-full border-2 border-dashed border-gray-300"
-            ></div>
+              ))}
+            </div>
           ))}
+          
+          <div className="mt-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold">Selected colors: {selectedColors.length}/{maxSelections}</h3>
+            </div>
+            
+            <div className="flex mt-2 space-x-2">
+              {selectedColors.map((colorKey) => {
+                const color = colorOptions.find(c => c.key === colorKey);
+                return (
+                  <div 
+                    key={colorKey}
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: color ? color.value : '#000' }}
+                  >
+                    <span className={`${color && (color.value === '#FFFFFF' || color.value === '#F5F5F5' || color.value === '#E5E4E2' || color.value === '#A3E0F5') ? 'text-gray-700' : 'text-white'} text-sm font-bold`}>m</span>
+                  </div>
+                );
+              })}
+              {Array(maxSelections - selectedColors.length).fill(0).map((_, i) => (
+                <div 
+                  key={i}
+                  className="w-8 h-8 rounded-full border-2 border-dashed border-gray-300"
+                ></div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

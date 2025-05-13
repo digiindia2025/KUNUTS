@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 // import Header from '../components/Header';
-import ProgressBar from '../Customize/ProgressBar';
-import ColorPicker from '../Customize/ColorPicker';
+// import ProgressBar from '../Customize/ProgressBar';
+// import ColorPicker from '../Customize/ColorPicker';
 import CandyPreview from '../Customize/CandyPreview';
-import StepNavigation from '../Customize/StepNavigation';
+// import StepNavigation from '../Customize/StepNavigation';
 import HoverToolbar from '../Customize/HoverToolbar';
 
 const MAX_COLOR_SELECTIONS = 5;
@@ -28,6 +28,7 @@ const Customize = () => {
     { name: 'Brown', hex: '#795548', id: 'brown' },
     { name: 'Cream', hex: '#FFF8E1', id: 'cream' },
   ];
+
 
   const handleColorSelection = (color) => {
     if (selectedColors.includes(color)) {
@@ -109,7 +110,7 @@ const Customize = () => {
           <div className="bg-white rounded-xl shadow-md p-6">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h2 className="text-2xl font-bold mb-4">choose up to three colors</h2>
+                <h2 className="text-2xl font-bold mb-4">choose up to  colors</h2>
                 <p className="text-gray-600 mb-6">Looking for something specific? Contact us for custom color options.</p>
                 
                 <div className="grid grid-cols-4 gap-4">
