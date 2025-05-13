@@ -29,6 +29,7 @@ const Customize = () => {
     { name: 'Cream', hex: '#FFF8E1', id: 'cream' },
   ];
 
+
   const handleColorSelection = (color) => {
     if (selectedColors.includes(color)) {
       setSelectedColors(selectedColors.filter(c => c !== color));
@@ -109,7 +110,7 @@ const Customize = () => {
           <div className="bg-white rounded-xl shadow-md p-6">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h2 className="text-2xl font-bold mb-4">choose up to three colors</h2>
+                <h2 className="text-2xl font-bold mb-4">choose up to Five colors</h2>
                 <p className="text-gray-600 mb-6">Looking for something specific? Contact us for custom color options.</p>
                 
                 <div className="grid grid-cols-4 gap-4">

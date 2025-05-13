@@ -52,7 +52,7 @@ const TopNavbar = () => {
           </div>
           <Link href="/" className={cn([integralCF.className, "text-2xl lg:text-[32px] mb-2 mr-3 lg:mr-10"])}>
             <Image
-              src="/images/logo.avif"
+              src="/images/logo.jpg"
               alt="Logo"
               width={120}
               height={40}
