@@ -31,12 +31,19 @@ const Page = () => {
     }
   };
 
+  const handleReset = () => {
+    setSelectedColors([]);
+    setSelectedPackage(null);
+    setCustomText('');
+    setCustomImage(null);
+    setCurrentStep(1);
+  };
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
         return (
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Sidebar Color Picker */}
             <div className="md:w-1/3 w-full bg-gray-100 p-4 rounded-lg shadow-md h-fit sticky top-20">
               <h3 className="text-xl font-bold mb-4">Select Colors</h3>
               <ColorPicker
@@ -55,7 +62,6 @@ const Page = () => {
               )}
             </div>
 
-            {/* Preview */}
             <div className="md:w-2/3 w-full">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Preview Your Mix</h3>
               <CandyPreview selectedColors={selectedColors} />
@@ -66,7 +72,6 @@ const Page = () => {
       case 2:
         return (
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Sidebar Custom Text & Image */}
             <div className="md:w-1/3 w-full bg-gray-100 p-4 rounded-lg shadow-md h-fit sticky top-20">
               <h3 className="text-xl font-bold mb-4">Add Customizations</h3>
 
@@ -104,7 +109,6 @@ const Page = () => {
               </button>
             </div>
 
-            {/* Preview */}
             <div className="md:w-2/3 w-full">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Preview Your Candy</h3>
               <CandyPreview
@@ -159,7 +163,6 @@ const Page = () => {
 
           <div className="bg-white rounded-xl shadow-md p-6">
             <ProgressBar currentStep={currentStep} />
-
             <div className="mt-8">{renderCurrentStep()}</div>
 
             {currentStep !== 1 && (
@@ -174,10 +177,9 @@ const Page = () => {
         </div>
       </main>
 
-      {/* Display Hover Toolbar when colors are selected */}
       {selectedColors.length > 0 && (
         <div className="fixed bottom-4 right-4 z-10 bg-white shadow-md p-4 rounded-lg">
-          <HoverToolbar />
+          <HoverToolbar onReset={handleReset} />
         </div>
       )}
     </div>
