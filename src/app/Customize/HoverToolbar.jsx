@@ -1,6 +1,4 @@
 "use client";
-
-import React from 'react';
 import { 
   HoverCard,
   HoverCardTrigger,
@@ -36,7 +34,7 @@ const HoverToolbar = ({ onReset }) => {
 
   return (
     <TooltipProvider>
-      <div className="fixed right-6 top-32 z-50">
+      <div className="fixed right-6 top-32 z-60">
         <div className="flex flex-col gap-3">
           {/* FAQ */}
           <HoverCard>

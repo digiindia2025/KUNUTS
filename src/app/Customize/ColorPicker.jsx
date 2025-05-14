@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React from "react";
 
 const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
   const colorOptions = [
@@ -23,17 +23,12 @@ const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
     { name: 'Dark Yellow', value: '#EFAA22', key: 'darkYellow' },
   ];
 
-  const isSelected = (color) => {
-    return selectedColors.includes(color.key);
-  };
-
-  const canSelect = (color) => {
-    return isSelected(color) || selectedColors.length < maxSelections;
-  };
+  const isSelected = (color) => selectedColors.includes(color.key);
+  const canSelect = (color) => isSelected(color) || selectedColors.length < maxSelections;
 
   const handleColorClick = (color) => {
     if (isSelected(color)) {
-      onSelectColor(selectedColors.filter(c => c !== color.key));
+      onSelectColor(selectedColors.filter((c) => c !== color.key));
     } else if (canSelect(color)) {
       onSelectColor([...selectedColors, color.key]);
     }
@@ -48,59 +43,77 @@ const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
   return (
     <div className="mt-6">
       <div className="sidebar-container">
-        <div className="bg-white-custom p-4 rounded-lg w-full">
+        <div className="bg-white p-4 rounded-lg w-full shadow">
           <h3 className="text-xl font-bold mb-4">Select Colors</h3>
-          
+
           {colorRows.map((row, rowIndex) => (
-            <div key={rowIndex} className="color-grid mb-4">
+            <div key={rowIndex} className="flex gap-4 mb-4">
               {row.map((color) => (
                 <div key={color.key} className="flex flex-col items-center">
                   <button
                     onClick={() => handleColorClick(color)}
                     disabled={!canSelect(color) && !isSelected(color)}
-                    className={`color-option ${
-                      isSelected(color) 
-                        ? 'color-option-selected' 
+                    className={`w-12 h-12 rounded-full transition-transform duration-200 ${
+                      isSelected(color)
+                        ? "ring-2 ring-offset-2 ring-black scale-110"
                         : canSelect(color)
-                          ? 'hover:scale-105 hover:shadow-lg'
-                          : 'opacity-50 cursor-not-allowed'
+                          ? "hover:scale-105 hover:shadow-lg"
+                          : "opacity-50 cursor-not-allowed"
                     }`}
                     style={{ backgroundColor: color.value }}
                     aria-label={`Select ${color.name}`}
                   >
-                    <div className="flex items-center justify-center w-full h-full">
-                      <span className={`text-${color.value === '#FFFFFF' || color.value === '#F5F5F5' || color.value === '#E5E4E2' || color.value === '#A3E0F5' ? 'gray-700' : 'white'} text-xl font-bold`}>m</span>
-                    </div>
+                    {/* <span
+                      className={`text-sm font-bold ${
+                        ["#FFFFFF", "#F5F5F5", "#E5E4E2", "#A3E0F5"].includes(color.value)
+                          ? "text-gray-700"
+                          : "text-white"
+                      }`}
+                    >
+                      m
+                    </span> */}
                   </button>
-                  <span className="mt-1 text-xs font-medium text-gray-700">{color.name}</span>
+                  <span className="mt-1 text-xs font-medium text-gray-700">
+                    {color.name}
+                  </span>
                 </div>
               ))}
             </div>
           ))}
-          
+
           <div className="mt-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold">Selected colors: {selectedColors.length}/{maxSelections}</h3>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-bold">
+                Selected colors: {selectedColors.length}/{maxSelections}
+              </h3>
             </div>
-            
+
             <div className="flex mt-2 space-x-2">
               {selectedColors.map((colorKey) => {
-                const color = colorOptions.find(c => c.key === colorKey);
+                const color = colorOptions.find((c) => c.key === colorKey);
                 return (
-                  <div 
+                  <div
                     key={colorKey}
                     className="w-8 h-8 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: color ? color.value : '#000' }}
+                    style={{ backgroundColor: color?.value ?? "#000" }}
                   >
-                    <span className={`${color && (color.value === '#FFFFFF' || color.value === '#F5F5F5' || color.value === '#E5E4E2' || color.value === '#A3E0F5') ? 'text-gray-700' : 'text-white'} text-sm font-bold`}>m</span>
+                    {/* <span
+                      className={`text-sm font-bold ${
+                        ["#FFFFFF", "#F5F5F5", "#E5E4E2", "#A3E0F5"].includes(color?.value)
+                          ? "text-gray-700"
+                          : "text-white"
+                      }`}
+                    >
+                      m
+                    </span> */}
                   </div>
                 );
               })}
-              {Array(maxSelections - selectedColors.length).fill(0).map((_, i) => (
-                <div 
-                  key={i}
+              {Array.from({ length: maxSelections - selectedColors.length }).map((_, i) => (
+                <div
+                  key={`empty-${i}`}
                   className="w-8 h-8 rounded-full border-2 border-dashed border-gray-300"
-                ></div>
+                />
               ))}
             </div>
           </div>

@@ -1,31 +1,24 @@
-"use client";
-import React from 'react';
-import { Button } from "@/components/ui/button";
-
-const StepNavigation = ({ currentStep, totalSteps, onNext, onPrev, disabled = false }) => {
+// StepNavigation.js
+export const StepNavigation = ({ currentStep, totalSteps, onNext, onPrev }) => {
   return (
-    <div className="flex justify-between mt-8 mb-4">
-      {currentStep > 1 ? (
-        <Button 
-          onClick={onPrev}
-          variant="outline"
-          className="border-2 border-gray-300"
-        >
-          Back
-        </Button>
-      ) : (
-        <div></div>
-      )}
-      
-      <Button 
-        onClick={onNext}
-        disabled={disabled}
-        className={`bg-yellow-400 text-black hover:bg-yellow-500 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+    <div className="flex justify-between mt-8">
+      <button
+        onClick={onPrev}
+        className="bg-gray-500 text-white py-2 px-4 rounded"
+        disabled={currentStep === 1}
       >
-        {currentStep === totalSteps ? 'Finish' : 'Next'}
-      </Button>
+        Previous
+      </button>
+      <div className="text-center text-lg">
+        Step {currentStep} of {totalSteps}
+      </div>
+      <button
+        onClick={onNext}
+        className="bg-candy-orange text-white py-2 px-4 rounded"
+        disabled={currentStep === totalSteps}
+      >
+        Next
+      </button>
     </div>
   );
 };
-
-export default StepNavigation;
