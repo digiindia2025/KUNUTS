@@ -38,7 +38,7 @@ const CandyPreview = ({ selectedColors }) => {
       const newCandies = [];
       const count = 150;
 
-      const gridSize = 10; // Divide the area into a grid
+      const gridSize = 8; // Divide the area into a grid
 
       for (let i = 0; i < count; i++) {
         const colorKey =
@@ -47,7 +47,7 @@ const CandyPreview = ({ selectedColors }) => {
         const x = Math.floor(Math.random() * gridSize) * (100 / gridSize); // Grid-based x position
         const y = Math.floor(Math.random() * gridSize) * (100 / gridSize); // Grid-based y position
 
-        const size = 50 + Math.random() * 5;
+        const size = 70 + Math.random() * 6;
 
         const zIndex = Math.floor(Math.random() * 5);
 
@@ -84,7 +84,7 @@ const CandyPreview = ({ selectedColors }) => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="relative w-full h-[400px] sm:h-[400px] md:h-[500px] lg:h-[580px] bg-white rounded-lg overflow-hidden border border-gray-200">
+      <div className="relative w-full h-[400px] sm:h-[400px] md:h-[500px] lg:h-[500px] bg-white rounded-lg overflow-hidden border border-gray-200">
         {selectedColors.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-500 text-lg">

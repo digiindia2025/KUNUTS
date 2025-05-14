@@ -6,7 +6,7 @@ import CandyPreview from '../components/CandyPreview';
 import HoverToolbar from '../components/HoverToolbar';
 import DesignOptions from '../components/DesignOptions';
 import { toast } from "sonner";
-import StepNavigation from '../components/StepNavigation';
+// import StepNavigation from '../components/StepNavigation';
 
 const MAX_COLOR_SELECTIONS = 3;
 
