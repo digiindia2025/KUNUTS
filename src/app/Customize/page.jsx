@@ -99,8 +99,8 @@ const Page = () => {
 
         <div className="flex flex-col gap-4">
           {/* Image Option */}
-          <div className='bg-white border rounded-lg hover:bg-gray-50 transition'>
-       <button>
+          <div>
+       <button className='flex flex-col items-center gap-2 p-4'>
   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +215,7 @@ const Page = () => {
             )}
           </div>
 
-          {/* Clipart Option */}
+          {/* Clipart Optigon */}
           <button className="flex flex-col items-center gap-2 p-8">
   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
     <svg
