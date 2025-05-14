@@ -99,7 +99,8 @@ const Page = () => {
 
         <div className="flex flex-col gap-4">
           {/* Image Option */}
-       <button className="flex flex-col items-center gap-2 p-4 bg-white border rounded-lg hover:bg-gray-50 transition">
+          <div className='bg-white border rounded-lg hover:bg-gray-50 transition'>
+       <button className="flex flex-col items-center gap-2 p-4">
   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +128,7 @@ const Page = () => {
           {/* Text Option */}
           <div className="flex flex-col gap-2">
            <button
-  className="flex flex-col items-center gap-2 p-4 bg-white border rounded-lg hover:bg-gray-50 transition"
+  className="flex flex-col items-center gap-2 p-4"
   onClick={() => setShowTextFields(!showTextFields)}
 >
   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
@@ -236,12 +237,27 @@ const Page = () => {
           </div>
 
           {/* Clipart Option */}
-          <button className="flex items-center gap-3 py-2 px-4 bg-white border rounded-lg hover:bg-gray-50 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m4 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h11a2 2 0 002-2z" />
-            </svg>
-            <span>Clipart</span>
-          </button>
+          <button className="flex flex-col items-center gap-2 p-8">
+  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className="w-8 h-8 text-blue-600"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 12l2 2 4-4m4 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h11a2 2 0 002-2z"
+      />
+    </svg>
+  </div>
+  <span className="text-sm font-medium text-gray-700">Clipart</span>
+</button>
+
+        </div>
         </div>
 
         {/* Continue Button */}
