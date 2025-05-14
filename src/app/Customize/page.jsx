@@ -100,7 +100,7 @@ const Page = () => {
         <div className="flex flex-col gap-4">
           {/* Image Option */}
           <div className='bg-white border rounded-lg hover:bg-gray-50 transition'>
-       <button className="flex flex-col items-center gap-2 p-4">
+       <button>
   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +162,6 @@ const Page = () => {
   <span className="text-sm font-medium text-gray-700">Text</span>
 </button>
 
-
             {showTextFields && (
               <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md">
                 {/* First Line */}
@@ -174,17 +173,7 @@ const Page = () => {
                     onChange={(e) => setFirstLine(e.target.value)}
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
                   />
-                  {/* <select
-                    className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                    value={firstLineFont}
-                    onChange={(e) => setFirstLineFont(e.target.value)}
-                  >
-                    <option value="Arial">Arial</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Verdana">Verdana</option>
-                  </select> */}
+                 
                 </div>
 
                 {/* Second Line */}
@@ -196,17 +185,7 @@ const Page = () => {
                     onChange={(e) => setSecondLine(e.target.value)}
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md"
                   />
-                  {/* <select
-                    className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                    value={secondLineFont}
-                    onChange={(e) => setSecondLineFont(e.target.value)}
-                  >
-                    <option value="Arial">Arial</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Verdana">Verdana</option>
-                  </select> */}
+                  
                 </div>
 
                 {/* Font Style Buttons */}
