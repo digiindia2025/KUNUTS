@@ -7,6 +7,8 @@ import Reviews from "@/components/homepage/Reviews";
 import { Product } from "@/types/product.types";
 import { Review } from "@/types/review.types";
 
+// import PromoBanner from "./Customize/PromoBanner";
+
 export const newArrivalsData: Product[] = [
   {
     id: 1,
@@ -215,7 +217,8 @@ export default function Home() {
       <HoverToolbar
         onReset={() => {}}
       /> */}
-            <Brands />
+      {/* <PromoBanner /> */}
+      <Brands />
 
       <main className="my-[50px] sm:my-[72px]">
         <ProductListSec
