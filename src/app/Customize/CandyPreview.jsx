@@ -36,14 +36,16 @@ const CandyPreview = ({ selectedColors }) => {
       if (selectedColors.length === 0) return [];
 
       const newCandies = [];
-      const count = 180;
+      const count = 150;
+
+      const gridSize = 10; // Divide the area into a grid
 
       for (let i = 0; i < count; i++) {
         const colorKey =
           selectedColors[Math.floor(Math.random() * selectedColors.length)];
-          
-        const x = 5 + Math.random() * 90;
-        const y = 5 + Math.random() * 90;
+
+        const x = Math.floor(Math.random() * gridSize) * (100 / gridSize); // Grid-based x position
+        const y = Math.floor(Math.random() * gridSize) * (100 / gridSize); // Grid-based y position
 
         const size = 50 + Math.random() * 5;
 
@@ -72,8 +74,8 @@ const CandyPreview = ({ selectedColors }) => {
     setCandies((prev) =>
       prev.map((candy) => ({
         ...candy,
-        x: 5 + Math.random() * 90,
-        y: 5 + Math.random() * 90,
+        x: Math.floor(Math.random() * 8) * (100 / 8),
+        y: Math.floor(Math.random() * 8) * (100 / 8),
         rotation: Math.random() * 360,
       }))
     );
@@ -114,15 +116,7 @@ const CandyPreview = ({ selectedColors }) => {
                     boxShadow:
                       "0px 4px 8px rgba(0, 0, 0, 0.3), inset 0px -3px 6px rgba(0, 0, 0, 0.2), inset 0px 3px 6px rgba(255, 255, 255, 0.5)",
                   }}
-                >
-                  {/* <span
-                    className={`text-${
-                      isDark ? "white" : "gray-700"
-                    } text-lg font-bold`}
-                  >
-                    m
-                  </span> */}
-                </div>
+                />
               );
             })}
             <div className="absolute bottom-4 right-4 flex space-x-2">

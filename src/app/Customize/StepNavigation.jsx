@@ -1,4 +1,3 @@
-// StepNavigation.js
 export const StepNavigation = ({ currentStep, totalSteps, onNext, onPrev }) => {
   return (
     <div className="flex justify-between mt-8">
