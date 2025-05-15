@@ -593,7 +593,21 @@ const [selectedCategory, setSelectedCategory] = useState('All');
                 </div>
               )}
             </div>
-          </div>
+            {/* <div className="flex flex-col min-h-screen"> */}
+                <div className="mt-auto px-4 pb-6">
+                <button
+                  onClick={handleNext}
+                  className="w-full bg-green-400 text-gray-900 font-semibold py-2 px-4 rounded-full bg-candy-orange text-white hover:bg-orange-500"
+                >
+                  Next Step
+                </button>
+              </div>
+              </div>
+          {/* </div> */}
+
+              {/* Next Step Button */}
+              
+              
 
           <div className="md:w-2/3 w-full">
             <h3 className="text-2xl font-bold mb-4 text-gray-800">
@@ -609,6 +623,7 @@ const [selectedCategory, setSelectedCategory] = useState('All');
           </div>
         </div>
       );
+      
 
     // /////////////////////////////////3///////////////////////
 
