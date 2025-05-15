@@ -476,15 +476,23 @@ const Page = () => {
                       <input
                         type="text"
                         placeholder="Search"
-                        className="w-full p-2 border rounded-md"
+                        className="w-full p-2 border rounded-full"
                       />
                     </div>
                     <div className="mb-4">
                       <label className="text-sm font-medium text-gray-700">
                         Select category
                       </label>
-                      <select className="w-full p-2 border rounded-md mt-1">
+                      <select className="w-full p-2 border rounded-full mt-1">
                         <option>Graduation</option>
+                        <option>Birthday</option>
+                        <option>Wedding</option>
+                        <option>Holiday</option>
+                        <option>Custom</option>
+                        <option>Anniversary</option>
+                        <option>Baby Shower</option>
+                        <option>Sports</option>
+                        <option>Other</option>
                        
                       </select>
                     </div>
