@@ -127,7 +127,7 @@ const Page = () => {
    return (
    <div className="flex flex-col md:flex-row gap-6">
   {/* Left Panel */}
-  <div className="md:w-1/4 w-full bg-gray-100 p-6 rounded-lg shadow-md h-fit sticky top-20">
+  <div className="md:w-1/3 w-full bg-gray-100 p-6 rounded-lg shadow-md h-fit sticky top-20">
     <h3 className="text-xl font-bold mb-4">Design Your Candy</h3>
 
     <div className="flex flex-col gap-4">
@@ -160,10 +160,10 @@ const Page = () => {
       </button>
 
      {showForm && (
-  <div className="mt-6 p-4 border rounded-lg shadow bg-white">
-    <h4 className="text-lg font-bold mb-4">Choose an Image</h4>
-    <h6 className="text-sm text-gray-600 mb-2">first image upload is FREE.</h6>
-    <h6 className="text-sm text-gray-600 mb-2">Additional images are $1.00 each.</h6>
+  <div className="mt-0 p-2 border rounded-lg shadow bg-white w-full">
+    <h4 className="text-lg font-bold mb-4 text-center">Choose an Image</h4>
+    <h6 className="text-sm text-gray-600 mb-2 text-center">first image upload is FREE.</h6>
+    <h6 className="text-sm text-gray-600 mb-2 text-center">Additional images are $1.00 each.</h6>
 
     {/* 👇 Add this new section below the line above */}
     <div className="mt-4">
@@ -176,17 +176,17 @@ const Page = () => {
       <h5 className="text-base font-semibold mb-2">For best results</h5>
       <div className="grid grid-cols-3 gap-4">
         <div className="flex flex-col items-center">
-          <img src="https://via.placeholder.com/64x64.png?text=1-2" className="rounded-full border" alt="1-2 faces"/>
+          <img src="/images/print.png" className="rounded-full border" alt="1-2 faces"/>
           <p className="mt-2 text-sm text-center">1-2 faces</p>
           <span className="text-green-500 text-xl">✔️</span>
         </div>
         <div className="flex flex-col items-center">
-          <img src="https://via.placeholder.com/64x64.png?text=Front" className="rounded-full border" alt="Face forward"/>
+          <img src="/images/print1.png" className="rounded-full border" alt="Face forward"/>
           <p className="mt-2 text-sm text-center">Face forward</p>
           <span className="text-green-500 text-xl">✔️</span>
         </div>
         <div className="flex flex-col items-center">
-          <img src="https://via.placeholder.com/64x64.png?text=Crop" className="rounded-full border" alt="Crop to face only"/>
+          <img src="/images/print2.png" className="rounded-full border" alt="Crop to face only"/>
           <p className="mt-2 text-sm text-center">Crop to show face only</p>
           <span className="text-green-500 text-xl">✔️</span>
         </div>
