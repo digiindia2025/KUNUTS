@@ -59,6 +59,7 @@ const Page = () => {
 
   const handleClipartClick = () => {
     setShowClipartPanel((prev) => !prev); // Toggle state
+    setSelectedImage(null); // Reset selection on open/close
   };
 
   // ///////////////////////////////////////////////////////////////////
@@ -84,6 +85,32 @@ const Page = () => {
       fileInputRef.current.click(); // trigger file selector
     }
   };
+
+  // //////////////////////////////////////////////
+  const allCliparts = [
+  { src: '/images/cliparts1.avif', alt: 'Graduation Cap', category: 'Graduation' },
+  { src: '/images/cliparts2.avif', alt: 'Class of 2024', category: 'Graduation' },
+  { src: '/images/cliparts3.avif', alt: 'Class of 2025', category: 'Graduation' },
+  { src: '/images/cliparts4.avif', alt: 'Class of 2026', category: 'Graduation' },
+  { src: '/images/cliparts5.avif', alt: 'Class of 2027', category: 'Graduation' },
+  { src: '/images/cliparts6.avif', alt: 'Class of 2028', category: 'Graduation' },
+  { src: '/images/cliparts7.avif', alt: 'Class of 2029', category: 'Graduation' },
+  { src: '/images/cliparts8.avif', alt: 'Class of 2030', category: 'Graduation' },
+  { src: '/images/cliparts9.avif', alt: 'Class of 2031', category: 'Graduation' },
+  { src: '/images/cliparts10.avif', alt: 'Class of 2032', category: 'Graduation' },
+  { src: '/images/cliparts11.avif', alt: 'Class of 2033', category: 'Graduation' },
+  { src: '/images/cliparts12.avif', alt: 'Class of 2034', category: 'Graduation' },
+  { src: '/images/cliparts13.avif', alt: 'Class of 2035', category: 'Graduation' },
+  { src: '/images/cliparts14.avif', alt: 'Class of 2036', category: 'Graduation' },
+];
+const [searchTerm, setSearchTerm] = useState('');
+const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredCliparts = allCliparts.filter(
+    clipart =>
+      (selectedCategory === 'All' || clipart.category === selectedCategory) &&
+      clipart.alt.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Handle upload button click
 
@@ -462,130 +489,84 @@ const Page = () => {
 
                 {/* Clipart Panel */}
                         {showClipartPanel && (
-                          <div className="mt-6 p-4 border rounded-md shadow-md">
-                          <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg font-bold mb-4">Choose Clipart</h2>
-                            <button
-                            onClick={handleClipartClick}
-                            className="text-gray-500 hover:text-black text-xl font-bold"
-                            >
-                            {/* &times; */}
-                            </button>
-                          </div>
-                          <div className="mb-2 relative">
-                            <input
-                            type="text"
-                            placeholder="Search"
-                            className="w-full p-2 border rounded-full pr-10"
-                            />
-                            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                            {/* Search Icon SVG */}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
-                              />
-                            </svg>
-                            </span>
-                          </div>
-                          <div className="mb-4">
-                            <label className="text-sm font-medium text-gray-700">
-                            Select category
-                            </label>
-                            <select className="w-full p-2 border rounded-full mt-1">
-                            <option>Graduation</option>
-                            <option>Birthday</option>
-                            <option>Wedding</option>
-                            <option>Holiday</option>
-                            <option>Custom</option>
-                            <option>Anniversary</option>
-                            <option>Baby Shower</option>
-                            <option>Sports</option>
-                            <option>Other</option>
-                             
-                            </select>
-                          </div>
+        <div className="mt-6 p-4 border rounded-md shadow-md">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold">Choose Clipart</h2>
+            <button
+              onClick={handleClipartClick}
+              className="text-gray-500 hover:text-black text-xl font-bold"
+            >
+              {/* &times; */}
+            </button>
+          </div>
+                           <div className="mb-2 relative">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="w-full p-2 border rounded-full pr-10"
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </span>
+          </div>
+                           {/* Category Select */}
+          <div className="mb-4">
+            <label className="text-sm font-medium text-gray-700">
+              Select category
+            </label>
+            <select
+              className="w-full p-2 border rounded-full mt-1"
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="Graduation">Graduation</option>
+              <option value="Birthday">Birthday</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Holiday">Holiday</option>
+              <option value="Custom">Custom</option>
+              <option value="Anniversary">Anniversary</option>
+              <option value="Baby Shower">Baby Shower</option>
+              <option value="Sports">Sports</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+           {/* Clipart Grid */}
                           <div className="grid grid-cols-4 gap-4">
-                           
+                            {filteredCliparts.map((clipart, index) => (
                             <img
-                            src="/images/cliparts1.avif"
-                            alt="Graduation Cap"
-                            className="w-16 h-16"
-                            />
-                            <img    
-                            src="/images/cliparts2.avif"
-                            alt="Class of 2024"
-                            className="w-16 h-16"
-                            />
-                            <img
-                            src="/images/cliparts3.avif"
-                            alt="Class of 2025"
-                            className="w-16 h-16"
-                            />
-                            <img
-                            src="/images/cliparts4.avif"
-                            alt="Class of 2026"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts5.avif"
-                            alt="Class of 2027"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts6.avif"
-                            alt="Class of 2028"
-                            className="w-16 h-16"
-                            />
-                            <img
-                            src="/images/cliparts7.avif"
-                            alt="Class of 2029"
-                            className="w-16 h-16"
-                            />
-                            <img
-                            src="/images/cliparts8.avif"
-                            alt="Class of 2030"
-                            className="w-16 h-16"
-                            />
-                            <img
-                            src="/images/cliparts9.avif"
-                            alt="Class of 2031"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts10.avif"
-                            alt="Class of 2032"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts11.avif"
-                            alt="Class of 2033"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts12.avif"
-                            alt="Class of 2034"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts13.avif"
-                            alt="Class of 2035"
-                            className="w-16 h-16" 
-                            />
-                            <img
-                            src="/images/cliparts14.avif"
-                            alt="Class of 2036"
-                            className="w-16 h-16"
-                            />
+                             key={index}
+                src={clipart.src}
+                alt={clipart.alt}
+                           className={`w-16 h-16 rounded-full cursor-pointer border-2 ${
+                  selectedImage === clipart.src
+                    ? 'border-blue-500 ring-2 ring-blue-300'
+                    : 'border-transparent'
+                }`}
+                 onClick={() =>
+                  setSelectedImage(prev => (prev === clipart.src ? null : clipart.src))
+                }
+                 />
+                  ))}
+
+                   {/* Confirm & Back Buttons */}
+          
                           </div>
                           </div>
                         )}
