@@ -47,8 +47,42 @@ const Page = () => {
   const [secondLineFont, setSecondLineFont] = useState('Arial');
   const [selectedFontStyle, setSelectedFontStyle] = useState('Bold');
   const [showTextFields, setShowTextFields] = useState(false);
+   const [showForm, setShowForm] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 // ///////////////////////////////////////////////////////////////////
  const fontStyles = ['Bold', 'Regular', 'Light', 'Script'];
+
+
+  // Handle file input change and preview image
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    } else {
+      setSelectedImage(null);
+    }
+  };
+
+  // Handle upload button click
+  const handleUpload = () => {
+    if (!selectedImage) {
+      alert("Please select an image to upload.");
+      return;
+    }
+    if (!agreeTerms) {
+      alert("Please agree to the Terms & Conditions before uploading.");
+      return;
+    }
+    // Upload logic here, e.g. send file to server
+
+    alert("Image uploaded successfully!");
+    // Reset form
+    setSelectedImage(null);
+    setAgreeTerms(false);
+    setShowForm(false);
+  };
+
 
   // Removed duplicate handleNext function
 
@@ -97,20 +131,112 @@ const Page = () => {
     <h3 className="text-xl font-bold mb-4">Design Your Candy</h3>
 
     <div className="flex flex-col gap-4">
-      {/* Image Option */}
-      <button className="flex flex-col items-center gap-2 p-4">
+      {/* Image Option Button */}
+      <button
+        className="flex flex-col items-center gap-2 p-4"
+        onClick={() => setShowForm(!showForm)}
+      >
         <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
-          {/* Image SVG */}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className="w-8 h-8">
+          {/* SVG icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 64 64"
+            className="w-8 h-8"
+          >
             <style>{`.cls-1{fill:#0072ff}`}</style>
             <g data-name="Layer 2">
-              <path className="cls-1" d="M39.87 48H18a2 2 0 1 0 0 4h23.21A10.79 10.79 0 0 0 52 41.21V17.9a2 2 0 0 0-2.34-2A2.08 2.08 0 0 0 48 18v21.87A8.13 8.13 0 0 1 39.87 48z" />
-              <path className="cls-1" d="M43.71 56H30a2 2 0 1 0 0 4h14.56A15.43 15.43 0 0 0 60 44.56V42a2 2 0 0 0-2.34-2A2.08 2.08 0 0 0 56 42.11v1.6A12.29 12.29 0 0 1 43.71 56zM12.24 44h23.52A8.24 8.24 0 0 0 44 35.76V12.24A8.24 8.24 0 0 0 35.76 4H12.24A8.24 8.24 0 0 0 4 12.24v23.52A8.24 8.24 0 0 0 12.24 44zM24 12a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm-8.18 13.61a1.51 1.51 0 0 1 1.82.09 10 10 0 0 0 12.73 0 1.51 1.51 0 0 1 1.82-.09 8.89 8.89 0 0 1 3.81 7.3A3.09 3.09 0 0 1 32.91 36H15.09A3.09 3.09 0 0 1 12 32.91a8.89 8.89 0 0 1 3.82-7.3zM58 24a2 2 0 0 0-2 2v8a2 2 0 0 0 4 0v-8a2 2 0 0 0-2-2z" />
+              <path
+                className="cls-1"
+                d="M39.87 48H18a2 2 0 1 0 0 4h23.21A10.79 10.79 0 0 0 52 41.21V17.9a2 2 0 0 0-2.34-2A2.08 2.08 0 0 0 48 18v21.87A8.13 8.13 0 0 1 39.87 48z"
+              />
+              <path
+                className="cls-1"
+                d="M43.71 56H30a2 2 0 1 0 0 4h14.56A15.43 15.43 0 0 0 60 44.56V42a2 2 0 0 0-2.34-2A2.08 2.08 0 0 0 56 42.11v1.6A12.29 12.29 0 0 1 43.71 56zM12.24 44h23.52A8.24 8.24 0 0 0 44 35.76V12.24A8.24 8.24 0 0 0 35.76 4H12.24A8.24 8.24 0 0 0 4 12.24v23.52A8.24 8.24 0 0 0 12.24 44zM24 12a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm-8.18 13.61a1.51 1.51 0 0 1 1.82.09 10 10 0 0 0 12.73 0 1.51 1.51 0 0 1 1.82-.09 8.89 8.89 0 0 1 3.81 7.3A3.09 3.09 0 0 1 32.91 36H15.09A3.09 3.09 0 0 1 12 32.91a8.89 8.89 0 0 1 3.82-7.3zM58 24a2 2 0 0 0-2 2v8a2 2 0 0 0 4 0v-8a2 2 0 0 0-2-2z"
+              />
             </g>
           </svg>
         </div>
         <span className="text-sm font-medium text-gray-700">Image</span>
       </button>
+
+     {showForm && (
+  <div className="mt-6 p-4 border rounded-lg shadow bg-white">
+    <h4 className="text-lg font-bold mb-4">Choose an Image</h4>
+    <h6 className="text-sm text-gray-600 mb-2">first image upload is FREE.</h6>
+    <h6 className="text-sm text-gray-600 mb-2">Additional images are $1.00 each.</h6>
+
+    {/* 👇 Add this new section below the line above */}
+    <div className="mt-4">
+      <div className="flex justify-center items-center space-x-4 mb-6">
+        <img src="/images/convert.jpeg" className="rounded-full w-60 h-30 object-cover" alt="original" />
+      </div>
+      <p className="text-sm text-center text-gray-700 mb-2">Your image will be printed black</p>
+
+
+      <h5 className="text-base font-semibold mb-2">For best results</h5>
+      <div className="grid grid-cols-3 gap-4">
+        <div className="flex flex-col items-center">
+          <img src="https://via.placeholder.com/64x64.png?text=1-2" className="rounded-full border" alt="1-2 faces"/>
+          <p className="mt-2 text-sm text-center">1-2 faces</p>
+          <span className="text-green-500 text-xl">✔️</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <img src="https://via.placeholder.com/64x64.png?text=Front" className="rounded-full border" alt="Face forward"/>
+          <p className="mt-2 text-sm text-center">Face forward</p>
+          <span className="text-green-500 text-xl">✔️</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <img src="https://via.placeholder.com/64x64.png?text=Crop" className="rounded-full border" alt="Crop to face only"/>
+          <p className="mt-2 text-sm text-center">Crop to show face only</p>
+          <span className="text-green-500 text-xl">✔️</span>
+        </div>
+      </div>
+    </div>
+    {/* 👆 End of new section */}
+
+    {/* Preview Selected Image */}
+    {selectedImage && (
+      <img
+        src={selectedImage}
+        alt="Selected"
+        className="mb-4 max-w-full max-h-48 object-contain rounded"
+      />
+    )}
+
+    <label htmlFor="image-upload" className="flex items-center space-x-2 text-sm">
+      <input
+        id="image-upload"
+        type="checkbox"
+        checked={agreeTerms}
+        onChange={(e) => setAgreeTerms(e.target.checked)}
+      />
+      <span>I have read, understand and agree to the Terms & Conditions</span>
+    </label>
+
+    <div className="mt-4 flex justify-between">
+      <button
+        className="px-4 py-2 bg-gray-200 rounded"
+        onClick={() => {
+          setShowForm(false);
+          setSelectedImage(null);
+          setAgreeTerms(false);
+        }}
+      >
+        Back
+      </button>
+      <button
+        className={`px-4 py-2 rounded text-white ${
+          agreeTerms && selectedImage ? "bg-blue-500" : "bg-blue-300 cursor-not-allowed"
+        }`}
+        onClick={handleUpload}
+        disabled={!agreeTerms || !selectedImage}
+      >
+        Upload Image
+      </button>
+    </div>
+  </div>
+)}
+
 
       {/* Text Option */}
       <div className="flex flex-col gap-2">
