@@ -1,58 +1,331 @@
-"use client";
-import React from 'react';
+
+import React, { useState, useRef } from 'react';
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { ImageIcon, TypeIcon, Palette } from 'lucide-react';
 
-const DesignOptions = () => {
+const DesignOptions = ({ 
+  onImageSelect, 
+  onTextChange, 
+  onFontStyleChange,
+  firstLine,
+  secondLine,
+  selectedFontStyle,
+  selectedImage
+}) => {
+  const [showTextFields, setShowTextFields] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
+  const [showClipartPanel, setShowClipartPanel] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const fileInputRef = useRef(null);
+
+  const [tempFirstLine, setTempFirstLine] = useState(firstLine);
+  const [tempSecondLine, setTempSecondLine] = useState(secondLine);
+  const [tempFontStyle, setTempFontStyle] = useState(selectedFontStyle);
+
+  const fontStyles = [
+    "Bold",
+    "Regular",
+    "Light",
+    "Script",
+    "Italic",
+    "Monospace",
+  ];
+
+  // Sample cliparts
+  const allCliparts = [
+    { src: 'https://via.placeholder.com/100?text=Graduation', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: 'https://via.placeholder.com/100?text=2024', alt: 'Class of 2024', category: 'Graduation' },
+    { src: 'https://via.placeholder.com/100?text=Star', alt: 'Star', category: 'Birthday' },
+    { src: 'https://via.placeholder.com/100?text=Heart', alt: 'Heart', category: 'Wedding' },
+    { src: 'https://via.placeholder.com/100?text=Tree', alt: 'Tree', category: 'Holiday' },
+    { src: 'https://via.placeholder.com/100?text=Cake', alt: 'Cake', category: 'Birthday' },
+    { src: 'https://via.placeholder.com/100?text=Ring', alt: 'Wedding Ring', category: 'Wedding' },
+    { src: 'https://via.placeholder.com/100?text=Gift', alt: 'Gift Box', category: 'Holiday' },
+  ];
+
+  const filteredCliparts = allCliparts.filter(
+    clipart =>
+      (selectedCategory === 'All' || clipart.category === selectedCategory) &&
+      clipart.alt.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      onImageSelect(imageUrl);
+    }
+  };
+
+  const handleUploadClick = () => {
+    if (agreeTerms) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleTextConfirm = () => {
+    onTextChange(tempFirstLine, tempSecondLine);
+    onFontStyleChange(tempFontStyle);
+    setShowTextFields(false);
+  };
+
+  const handleClipartSelect = (src) => {
+    onImageSelect(src);
+    setShowClipartPanel(false);
+  };
+
   return (
-    <div className="p-4">
-      <h2 className="text-4xl font-bold mb-6">design your candy</h2>
-      <p className="text-gray-600 mb-8">Create up to 4 designs. Tap each to edit.</p>
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-3xl font-bold mb-6 text-center">Design Your Candy</h2>
+      <p className="text-gray-600 mb-8 text-center">Choose your design option below</p>
       
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 mb-8">
         {/* Image Option */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div 
+          className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => {
+            setShowImageUpload(true);
+            setShowTextFields(false);
+            setShowClipartPanel(false);
+          }}
+        >
           <AspectRatio ratio={1/1} className="bg-white">
             <div className="flex flex-col items-center justify-center h-full">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
                 <ImageIcon className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-brown-800 mb-1">Image</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-1">Image</h3>
               <div className="w-16 h-1 bg-yellow-500 rounded"></div>
             </div>
           </AspectRatio>
         </div>
         
         {/* Text Option */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div 
+          className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => {
+            setShowTextFields(true);
+            setShowImageUpload(false);
+            setShowClipartPanel(false);
+          }}
+        >
           <AspectRatio ratio={1/1} className="bg-white">
             <div className="flex flex-col items-center justify-center h-full">
               <div className="mb-2">
                 <span className="text-4xl font-bold text-orange-500">Aa</span>
               </div>
-              <h3 className="text-xl font-bold text-brown-800 mb-1">Text</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-1">Text</h3>
               <div className="w-16 h-1 bg-yellow-500 rounded"></div>
             </div>
           </AspectRatio>
         </div>
         
         {/* Clipart Option */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden col-span-2">
+        <div 
+          className="bg-white rounded-lg shadow-md overflow-hidden col-span-2 cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => {
+            setShowClipartPanel(true);
+            setShowTextFields(false);
+            setShowImageUpload(false);
+          }}
+        >
           <AspectRatio ratio={2/1} className="bg-white">
             <div className="flex flex-col items-center justify-center h-full">
               <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-2">
                 <Palette className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-brown-800 mb-1">Clipart</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-1">Clipart</h3>
               <div className="w-16 h-1 bg-yellow-500 rounded"></div>
             </div>
           </AspectRatio>
         </div>
       </div>
       
+      {/* Text Fields Panel */}
+      {showTextFields && (
+        <div className="mt-6 p-4 border rounded-md shadow-md">
+          <h4 className="text-lg font-bold mb-4">Add Your Text</h4>
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="firstLine" className="block text-sm font-medium text-gray-700 mb-1">First Line</label>
+              <input
+                type="text"
+                id="firstLine"
+                value={tempFirstLine}
+                onChange={(e) => setTempFirstLine(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                placeholder="Type first line"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="secondLine" className="block text-sm font-medium text-gray-700 mb-1">Second Line</label>
+              <input
+                type="text"
+                id="secondLine"
+                value={tempSecondLine}
+                onChange={(e) => setTempSecondLine(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                placeholder="Type second line"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Font Style</label>
+              <div className="grid grid-cols-3 gap-2">
+                {fontStyles.map((style) => (
+                  <button
+                    key={style}
+                    onClick={() => setTempFontStyle(style)}
+                    className={`px-3 py-2 text-sm ${
+                      tempFontStyle === style
+                        ? "bg-yellow-100 border-yellow-500 border-2"
+                        : "bg-gray-100"
+                    } rounded-md transition-colors`}
+                  >
+                    {style}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleTextConfirm}
+                className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors"
+              >
+                Apply Text
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Image Upload Panel */}
+      {showImageUpload && (
+        <div className="mt-6 p-4 border rounded-md shadow-md">
+          <h4 className="text-lg font-bold mb-4">Upload Image</h4>
+          
+          {selectedImage && (
+            <div className="mb-4">
+              <img 
+                src={selectedImage} 
+                alt="Selected" 
+                className="max-h-40 mx-auto object-contain" 
+              />
+            </div>
+          )}
+          
+          <div className="mb-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+                className="rounded"
+              />
+              <span className="text-sm text-gray-700">I agree to the terms and conditions</span>
+            </label>
+          </div>
+          
+          <div className="flex justify-between">
+            <button
+              onClick={() => {
+                onImageSelect(null);
+                setShowImageUpload(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              Cancel
+            </button>
+            
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+            
+            <button
+              onClick={handleUploadClick}
+              disabled={!agreeTerms}
+              className={`px-4 py-2 rounded-md ${
+                agreeTerms 
+                  ? "bg-yellow-500 text-white hover:bg-yellow-600" 
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              } transition-colors`}
+            >
+              Upload Image
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* Clipart Panel */}
+      {showClipartPanel && (
+        <div className="mt-6 p-4 border rounded-md shadow-md">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="text-lg font-bold">Choose Clipart</h4>
+            <button
+              onClick={() => setShowClipartPanel(false)}
+              className="text-gray-500 hover:text-black"
+            >
+              &times;
+            </button>
+          </div>
+          
+          <div className="mb-4">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search cliparts..."
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
+            >
+              <option value="All">All Categories</option>
+              <option value="Graduation">Graduation</option>
+              <option value="Birthday">Birthday</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Holiday">Holiday</option>
+            </select>
+          </div>
+          
+          <div className="grid grid-cols-4 gap-2 mt-4">
+            {filteredCliparts.map((clipart, index) => (
+              <div
+                key={index}
+                onClick={() => handleClipartSelect(clipart.src)}
+                className={`cursor-pointer p-1 rounded-md ${
+                  selectedImage === clipart.src
+                    ? "ring-2 ring-yellow-500"
+                    : ""
+                }`}
+              >
+                <img
+                  src={clipart.src}
+                  alt={clipart.alt}
+                  className="w-full aspect-square object-cover rounded-md"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
       <div className="mt-10">
         <button className="w-full py-4 bg-yellow-400 text-black text-xl font-bold rounded-full hover:bg-yellow-500 transition-colors">
-          skip
+          Skip
         </button>
       </div>
     </div>
