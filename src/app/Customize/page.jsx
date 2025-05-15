@@ -52,7 +52,6 @@ const Page = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const fileInputRef = React.useRef(null);
-  
 
   // ///////////////////////////////////////////////////////////////////
   const fontStyles = ["Bold", "Regular", "Light", "Script"];
@@ -71,9 +70,7 @@ const Page = () => {
     }
   };
 
-
   // Handle upload button click
-  
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -222,101 +219,115 @@ const Page = () => {
                     {/* 👆 End of new section */}
 
                     {/* Preview Selected Image */}
-                   {/* Preview Selected Image */}
-{selectedImage && (
-  <img
-    src={selectedImage}
-    alt="Selected"
-    className="mb-4 max-w-full max-h-48 object-contain rounded"
-  />
-)}
+                    {/* Preview Selected Image */}
+                    {selectedImage && (
+                      <img
+                        src={selectedImage}
+                        alt="Selected"
+                        className="mb-4 max-w-full max-h-48 object-contain rounded"
+                      />
+                    )}
 
-<div className="mb-6">
-  <h6 className="text-sm text-gray-600 font-bold mb-2">
-    Image Requirements
-  </h6>
-  <ul className="mt-4 list-disc pl-5 text-sm text-gray-600 space-y-1">
-    <li>
-      Upload a high-quality <strong>.jpg</strong>, <strong>.png</strong>, or <strong>.jpeg</strong> file (max 15MB).
-    </li>
-    <li>
-      Background will be removed; photo will be printed in black.
-    </li>
-    <li>
-      Only 1–2 faces cheek to cheek are allowed.
-    </li>
-    <li>
-      Crop close to faces for best results — arms, legs, and body will not be included.
-    </li>
-    <li>
-      No copyrighted or trademarked images/logos unless legal permission is provided.
-    </li>
-    <li>
-      For logo printing questions, please contact our Business Consultants directly.
-    </li>
-    <li>
-      First image upload is <strong>FREE</strong>.
-    </li>
-    <li>
-      Add a second image for <strong>$4.99</strong>.
-    </li>
-    <li>
-      Accepted file types: <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>.
-    </li>
-    <li>
-      Ensure your image is well-lit and faces are clearly visible for optimal quality.
-    </li>
-  </ul>
-</div>
+                    <div className="mb-6">
+                      <h6 className="text-sm text-gray-600 font-bold mb-2">
+                        Image Requirements
+                      </h6>
+                      <ul className="mt-4 list-disc pl-5 text-sm text-gray-600 space-y-1">
+                        <li>
+                          Upload a high-quality <strong>.jpg</strong>,{" "}
+                          <strong>.png</strong>, or <strong>.jpeg</strong> file
+                          (max 15MB).
+                        </li>
+                        <li>
+                          Background will be removed; photo will be printed in
+                          black.
+                        </li>
+                        <li>Only 1–2 faces cheek to cheek are allowed.</li>
+                        <li>
+                          Crop close to faces for best results — arms, legs, and
+                          body will not be included.
+                        </li>
+                        <li>
+                          No copyrighted or trademarked images/logos unless
+                          legal permission is provided.
+                        </li>
+                        <li>
+                          For logo printing questions, please contact our
+                          Business Consultants directly.
+                        </li>
+                        <li>
+                          First image upload is <strong>FREE</strong>.
+                        </li>
+                        <li>
+                          Add a second image for <strong>$4.99</strong>.
+                        </li>
+                        <li>
+                          Accepted file types: <code>.jpg</code>,{" "}
+                          <code>.jpeg</code>, <code>.png</code>.
+                        </li>
+                        <li>
+                          Ensure your image is well-lit and faces are clearly
+                          visible for optimal quality.
+                        </li>
+                      </ul>
+                    </div>
 
- {/* Agreement Checkbox */}
-      <label htmlFor="image-upload" className="flex items-center space-x-2 text-sm">
-        <input
-          id="image-upload"
-          type="checkbox"
-          checked={agreeTerms}
-          onChange={(e) => setAgreeTerms(e.target.checked)}
-        />
-        <span>I have read, understand and agree to the Terms & Conditions</span>
-      </label>  
+                    {/* Agreement Checkbox */}
+                    <label
+                      htmlFor="image-upload"
+                      className="flex items-center space-x-2 text-sm"
+                    >
+                      <input
+                        id="image-upload"
+                        type="checkbox"
+                        checked={agreeTerms}
+                        onChange={(e) => setAgreeTerms(e.target.checked)}
+                      />
+                      <span>
+                        I have read, understand and agree to the Terms &
+                        Conditions
+                      </span>
+                    </label>
 
-<div className="mt-4 flex justify-between">
- {/* Buttons */}
+                    <div className="mt-4 flex justify-between">
+                      {/* Buttons */}
 
-    <div className="mt-4 flex justify-between items-center gap-4">
-  <button
-    className="px-4 py-2 bg-gray-200 rounded"
-    onClick={() => {
-      setSelectedImage(null);
-      setAgreeTerms(false);
-    }}
-  >
-    Back
-  </button>
+                      <div className="mt-4 flex justify-between items-center gap-4">
+                        <button
+                          className="px-4 py-2 bg-gray-200 rounded"
+                          onClick={() => {
+                            setSelectedImage(null);
+                            setAgreeTerms(false);
+                          }}
+                        >
+                          Back
+                        </button>
 
-   <input
-    type="file"
-    ref={fileInputRef}
-    onChange={handleFileChange}
-    className="hidden"
-  />
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
 
- <button
-    className={`px-6 py-2 rounded text-white transition-colors duration-200 ${
-      agreeTerms ? "bg-yellow-500 hover:bg-yellow-600" : "bg-blue-300 cursor-not-allowed"
-    }`}
-    onClick={handleUploadClick}
-    disabled={!agreeTerms}
-  >
-    Upload Image
-  </button>
-
-</div>
-</div>
+                        <button
+                          className={`px-6 py-2 rounded text-white transition-colors duration-200 ${
+                            agreeTerms
+                              ? "bg-yellow-500 hover:bg-yellow-600"
+                              : "bg-blue-300 cursor-not-allowed"
+                          }`}
+                          onClick={handleUploadClick}
+                          disabled={!agreeTerms}
+                        >
+                          Upload Image
+                        </button>
+                      </div>
+                    </div>
                   </div>
-)}
+                )}
+ {/*///////////////// Text Option ////////////////////////////////*/}
 
-                {/* Text Option */}
+
                 <div className="flex flex-col gap-2">
                   <button
                     className="flex flex-col items-center gap-2 p-4"
@@ -353,25 +364,22 @@ const Page = () => {
                     <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md">
                       {/* Text Inputs */}
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          First Line
-                        </label>
                         <input
                           type="text"
                           value={firstLine}
+                          placeholder="Type The First Line"
                           onChange={(e) => setFirstLine(e.target.value)}
-                          className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                          className="w-full mt-1 p-2 border border-gray-300 rounded-full"
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-700">
-                          Second Line
-                        </label>
+                       
                         <input
                           type="text"
                           value={secondLine}
+                          placeholder="Type The Second Line"
                           onChange={(e) => setSecondLine(e.target.value)}
-                          className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+                          className="w-full mt-1 p-2 border border-gray-300 rounded-full"
                         />
                       </div>
 
@@ -405,14 +413,22 @@ const Page = () => {
 
                       {/* Action Buttons */}
                       <div className="flex justify-between items-center mt-6">
-                        <button className="px-6 py-2 rounded-full border border-brown-700 text-brown-700 font-bold">
-                          Back
-                        </button>
-                        <button className="px-6 py-2 rounded-full bg-gray-300 text-white font-bold cursor-not-allowed">
-                          Confirm
-                        </button>
-                      </div>
+  <button className="px-6 py-2 rounded-full border border-brown-700 text-brown-700 font-bold">
+    Back
+  </button>
+  <button
+    className={`px-6 py-2 rounded-full font-bold transition-colors duration-200 ${
+      firstLine && secondLine && selectedFontStyle
+        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+        : "bg-gray-300 text-white cursor-not-allowed"
+    }`}
+    disabled={!(firstLine && secondLine && selectedFontStyle)}
+  >
+    Confirm
+  </button>
+</div>
                     </div>
+
                   )}
                 </div>
 
