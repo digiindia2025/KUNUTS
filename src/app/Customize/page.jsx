@@ -54,7 +54,7 @@ const Page = () => {
   const fileInputRef = React.useRef(null);
 
   // ///////////////////////////////////////////////////////////////////
-  const fontStyles = ["Bold", "Regular", "Light", "Script"];
+const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"];
 
   // Handle file input change and preview image
   const handleFileChange = (e) => {
