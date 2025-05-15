@@ -53,8 +53,23 @@ const Page = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const fileInputRef = React.useRef(null);
 
+  // ///////////////////////////3////////////////////////////////////////
+
+  const [showClipartPanel, setShowClipartPanel] = useState(false);
+
+  const handleClipartClick = () => {
+    setShowClipartPanel((prev) => !prev); // Toggle state
+  };
+
   // ///////////////////////////////////////////////////////////////////
-const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"];
+  const fontStyles = [
+    "Bold",
+    "Regular",
+    "Light",
+    "Script",
+    "Italic",
+    "Monospace",
+  ];
 
   // Handle file input change and preview image
   const handleFileChange = (e) => {
@@ -325,8 +340,7 @@ const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"]
                     </div>
                   </div>
                 )}
- {/*///////////////// Text Option ////////////////////////////////*/}
-
+                {/*///////////////// Text Option ////////////////////////////////*/}
 
                 <div className="flex flex-col gap-2">
                   <button
@@ -373,7 +387,6 @@ const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"]
                         />
                       </div>
                       <div>
-                       
                         <input
                           type="text"
                           value={secondLine}
@@ -413,38 +426,147 @@ const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"]
 
                       {/* Action Buttons */}
                       <div className="flex justify-between items-center mt-6">
-  <button className="px-6 py-2 rounded-full border border-brown-700 text-brown-700 font-bold">
-    Back
-  </button>
-  <button
-    className={`px-6 py-2 rounded-full font-bold transition-colors duration-200 ${
-      firstLine && secondLine && selectedFontStyle
-        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
-        : "bg-gray-300 text-white cursor-not-allowed"
-    }`}
-    disabled={!(firstLine && secondLine && selectedFontStyle)}
-  >
-    Confirm
-  </button>
-</div>
+                        <button className="px-6 py-2 rounded-full border border-brown-700 text-brown-700 font-bold">
+                          Back
+                        </button>
+                        <button
+                          className={`px-6 py-2 rounded-full font-bold transition-colors duration-200 ${
+                            firstLine && secondLine && selectedFontStyle
+                              ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+                              : "bg-gray-300 text-white cursor-not-allowed"
+                          }`}
+                          disabled={
+                            !(firstLine && secondLine && selectedFontStyle)
+                          }
+                        >
+                          Confirm
+                        </button>
+                      </div>
                     </div>
-
                   )}
                 </div>
-
+                {/* ///////////////////////////////////////////////////////////////////////// */}
                 {/* Clipart Option */}
-                <button className="flex flex-col items-center gap-2 p-4">
+
+                <button
+                  className="flex flex-col items-center gap-2 p-4"
+                  onClick={handleClipartClick}
+                >
                   <div className="w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
-                    {/* TODO: Add your Clipart SVG here */}
                     <span className="text-lg font-bold text-blue-600">🎨</span>
                   </div>
                   <span className="text-sm font-medium text-gray-700">
                     Clipart
                   </span>
                 </button>
+
+                {/* Clipart Panel */}
+                {showClipartPanel && (
+                  <div className="mt-6 p-4 border rounded-md shadow-md">
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-lg font-bold mb-4">Choose Clipart</h2>
+                      <button
+                        onClick={handleClipartClick}
+                        className="text-gray-500 hover:text-black text-xl font-bold"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                    <div className="mb-2">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        className="w-full p-2 border rounded-md"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="text-sm font-medium text-gray-700">
+                        Select category
+                      </label>
+                      <select className="w-full p-2 border rounded-md mt-1">
+                        <option>Graduation</option>
+                       
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-4 gap-4">
+                     
+                      <img
+                        src="/images/cliparts1.avif"
+                        alt="Graduation Cap"
+                        className="w-16 h-16"
+                      />
+                      <img    
+                        src="/images/cliparts2.avif"
+                        alt="Class of 2024"
+                        className="w-16 h-16"
+                      />
+                      <img
+                        src="/images/cliparts3.avif"
+                        alt="Class of 2025"
+                        className="w-16 h-16"
+                      />
+                      <img
+                        src="/images/cliparts4.avif"
+                        alt="Class of 2026"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts5.avif"
+                        alt="Class of 2027"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts6.avif"
+                        alt="Class of 2028"
+                        className="w-16 h-16"
+                      />
+                      <img
+                        src="/images/cliparts7.avif"
+                        alt="Class of 2029"
+                        className="w-16 h-16"
+                      />
+                      <img
+                        src="/images/cliparts8.avif"
+                        alt="Class of 2030"
+                        className="w-16 h-16"
+                      />
+                      <img
+                        src="/images/cliparts9.avif"
+                        alt="Class of 2031"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts10.avif"
+                        alt="Class of 2032"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts11.avif"
+                        alt="Class of 2033"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts12.avif"
+                        alt="Class of 2034"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts13.avif"
+                        alt="Class of 2035"
+                        className="w-16 h-16" 
+                      />
+                      <img
+                        src="/images/cliparts14.avif"
+                        alt="Class of 2036"
+                        className="w-16 h-16"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-            {/* </div> */}
+
+            {/* //////////////////////////////////////////////////////////////////////// */}
 
             <div className="md:w-2/3 w-full">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
@@ -454,6 +576,8 @@ const fontStyles = ["Bold", "Regular", "Light", "Script", "Italic", "Monospace"]
             </div>
           </div>
         );
+
+      // /////////////////////////////////3///////////////////////
 
       case 3:
         return (
