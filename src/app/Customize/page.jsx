@@ -73,7 +73,7 @@ const Customize = () => {
             </div>
             
             {/* Color Selection Sidebar - Takes 2/5 of the width on large screens */}
-            <div className="lg:col-span-2 ml-4 w-1/1">
+            <div className="lg:col-span-2">
               <ColorPicker 
                 selectedColors={selectedColors} 
                 onSelectColor={handleColorSelection} 
@@ -82,12 +82,23 @@ const Customize = () => {
             </div>
           </div>
         );
+
+         
+        //     <div className="lg:col-span-2">
+        //       <ColorPicker 
+        //         selectedColors={selectedColors} 
+        //         onSelectColor={handleColorSelection} 
+        //         maxSelections={MAX_COLOR_SELECTIONS} 
+        //       />
+        //     </div>
+        //   </div>
+        // );
       case 2:
         return (
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Main content area - Takes 3/5 of the width on large screens */}
-            <div className="lg:col-span-3 bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-4xl font-bold mb-4">preview your design</h2>
+            <div className="lg:col-span-3 bg-white rounded-xl shadow-md p-6  ">
+              <h2 className="text-4xl font-bold mb-6">preview your design</h2>
               <p className="text-gray-600 mb-6">See how your customizations will look on the candies.</p>
               
               <CandyPreview 
@@ -100,7 +111,7 @@ const Customize = () => {
             </div>
             
             {/* Design Options Sidebar - Takes 2/5 of the width on large screens */}
-            <div className="lg:col-span-2">
+            {/* <div className="lg:col-span-2">
               <DesignOptions 
                 onImageSelect={setSelectedImage} 
                 onTextChange={(first, second) => {
@@ -119,7 +130,74 @@ const Customize = () => {
       default:
         return <div>Invalid step</div>;
     }
+  }; */}
+
+   {/* Design Options and Preview Circles */}
+            <div className="lg:col-span-2">
+              <div className="flex">
+                {/* Design options on the left */}
+                <div className="flex-grow">
+                  <DesignOptions 
+                    onImageSelect={setSelectedImage} 
+                    onTextChange={(first, second) => {
+                      setFirstLine(first);
+                      setSecondLine(second);
+                    }} 
+                    onFontStyleChange={setSelectedFontStyle}
+                    firstLine={firstLine}
+                    secondLine={secondLine}
+                    selectedFontStyle={selectedFontStyle}
+                    selectedImage={selectedImage}
+                  />
+                </div>
+                
+                {/* Preview circles on the right */}
+                <div className="flex flex-col space-y-8 items-center justify-center pl-4">
+                  {/* Image preview circle */}
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${selectedImage ? 'border-2 border-black' : 'border border-gray-300 border-dashed'}`}>
+                    {selectedImage ? (
+                      <img 
+                        src={typeof selectedImage === 'object' ? selectedImage.src : selectedImage}
+                        alt="Selected" 
+                        className="w-12 h-12 object-contain"
+                      />
+                    ) : null}
+                  </div>
+                  
+                  {/* Text preview circle */}
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${(firstLine || secondLine) ? 'border-2 border-black' : 'border border-gray-300 border-dashed'}`}>
+                    {(firstLine || secondLine) ? (
+                      <div className={`text-xs text-center leading-tight truncate w-10`}>
+                        {firstLine && <div>{firstLine}</div>}
+                        {secondLine && <div>{secondLine}</div>}
+                      </div>
+                    ) : null}
+                  </div>
+                  
+                  {/* Clipart preview circle */}
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                    selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') 
+                      ? 'border-2 border-black' 
+                      : 'border border-gray-300 border-dashed'
+                  }`}>
+                    {selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') ? (
+                      <img 
+                        src={selectedImage}
+                        alt="Selected Clipart" 
+                        className="w-12 h-12 object-contain"
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return <div>Invalid step</div>;
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50">

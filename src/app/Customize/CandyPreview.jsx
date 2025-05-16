@@ -168,7 +168,8 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="relative w-full h-[400px] bg-white rounded-lg overflow-hidden border border-gray-200">
+      <div className="relative w-400 h-[400px] bg-white rounded-lg overflow-hidden border border-gray-200">
+        {/* esse ham pura  preview ke box ko manage kr sakte hai 🔝 */}
         {selectedColors.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-500 text-lg">Select colors to see your candy mix preview</p>

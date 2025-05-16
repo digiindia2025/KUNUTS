@@ -1,8 +1,10 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { ImageIcon, TypeIcon, Palette, MoveHorizontal, ZoomIn, ZoomOut, RotateCw } from 'lucide-react';
 import { toast } from "sonner";
 import { Slider } from "@/components/ui/slider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const DesignOptions = ({ 
   onImageSelect, 
@@ -35,6 +37,9 @@ const DesignOptions = ({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imageZoom, setImageZoom] = useState(100); // Range 50-150
   const [imageRotation, setImageRotation] = useState(0); // Range 0-360
+  
+  // Selected design option (radio button)
+  const [selectedOption, setSelectedOption] = useState("none"); // none, image, text, clipart
 
   const fontStyles = [
     "Bold",
@@ -96,6 +101,27 @@ const DesignOptions = ({
   const handleClipartSelect = (src) => {
     onImageSelect(src);
     setShowClipartPanel(false);
+    setSelectedOption("clipart"); // Update selected option
+  };
+  
+  // Handle option selection
+  const handleOptionSelect = (value) => {
+    setSelectedOption(value);
+    
+    // Reset all panels
+    setShowTextFields(false);
+    setShowImageUpload(false);
+    setShowClipartPanel(false);
+    setShowImageEditor(false);
+    
+    // Open the corresponding panel
+    if (value === "image") {
+      setShowImageUpload(true);
+    } else if (value === "text") {
+      setShowTextFields(true);
+    } else if (value === "clipart") {
+      setShowClipartPanel(true);
+    }
   };
 
   // Mouse event handlers for image dragging
@@ -159,6 +185,7 @@ const DesignOptions = ({
     });
     setShowImageEditor(false);
     toast.success("Image has been added to your candy design!");
+    setSelectedOption("image"); // Update selected option
   };
 
   const handleResetImageEdits = () => {
@@ -172,70 +199,57 @@ const DesignOptions = ({
       <h2 className="text-3xl font-bold mb-6 text-center">Design Your Candy</h2>
       <p className="text-gray-600 mb-8 text-center">Choose your design option below</p>
       
-      <div className="grid grid-cols-2 gap-6 mb-8">
+      {/* Design options as radio group */}
+      <RadioGroup value={selectedOption} onValueChange={handleOptionSelect} className="flex flex-col space-y-5">
         {/* Image Option */}
-        <div 
-          className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => {
-            setShowImageUpload(true);
-            setShowTextFields(false);
-            setShowClipartPanel(false);
-            setShowImageEditor(false);
-          }}
-        >
-          <AspectRatio ratio={1/1} className="bg-white">
-            <div className="flex flex-col items-center justify-center h-full">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-                <ImageIcon className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-1">Image</h3>
-              <div className="w-16 h-1 bg-yellow-500 rounded"></div>
+        <div className={`flex items-center space-x-3 p-3 rounded-lg ${selectedOption === "image" ? "bg-blue-50 border border-blue-200" : "hover:bg-gray-50"}`}>
+          <RadioGroupItem value="image" id="option-image" />
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleOptionSelect("image")}>
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <ImageIcon className="h-5 w-5 text-blue-600" />
             </div>
-          </AspectRatio>
+            <div>
+              <label htmlFor="option-image" className="text-lg font-semibold cursor-pointer">Image</label>
+              <div className="w-16 h-1 bg-yellow-500 rounded mt-1"></div>
+              {selectedImage && <p className="text-xs text-gray-500 mt-1">Image selected</p>}
+            </div>
+          </div>
         </div>
         
         {/* Text Option */}
-        <div 
-          className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => {
-            setShowTextFields(true);
-            setShowImageUpload(false);
-            setShowClipartPanel(false);
-            setShowImageEditor(false);
-          }}
-        >
-          <AspectRatio ratio={1/1} className="bg-white">
-            <div className="flex flex-col items-center justify-center h-full">
-              <div className="mb-2">
-                <span className="text-4xl font-bold text-orange-500">Aa</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-1">Text</h3>
-              <div className="w-16 h-1 bg-yellow-500 rounded"></div>
+        <div className={`flex items-center space-x-3 p-3 rounded-lg ${selectedOption === "text" ? "bg-orange-50 border border-orange-200" : "hover:bg-gray-50"}`}>
+          <RadioGroupItem value="text" id="option-text" />
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleOptionSelect("text")}>
+            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+              <span className="text-2xl font-bold text-orange-500">Aa</span>
             </div>
-          </AspectRatio>
+            <div>
+              <label htmlFor="option-text" className="text-lg font-semibold cursor-pointer">Text</label>
+              <div className="w-16 h-1 bg-yellow-500 rounded mt-1"></div>
+              {(firstLine || secondLine) && <p className="text-xs text-gray-500 mt-1">Text added</p>}
+            </div>
+          </div>
         </div>
         
         {/* Clipart Option */}
-        <div 
-          className="bg-white rounded-lg shadow-md overflow-hidden col-span-2 cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => {
-            setShowClipartPanel(true);
-            setShowTextFields(false);
-            setShowImageUpload(false);
-            setShowImageEditor(false);
-          }}
-        >
-          <AspectRatio ratio={2/1} className="bg-white">
-            <div className="flex flex-col items-center justify-center h-full">
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-2">
-                <Palette className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-1">Clipart</h3>
-              <div className="w-16 h-1 bg-yellow-500 rounded"></div>
+        <div className={`flex items-center space-x-3 p-3 rounded-lg ${selectedOption === "clipart" ? "bg-green-50 border border-green-200" : "hover:bg-gray-50"}`}>
+          <RadioGroupItem value="clipart" id="option-clipart" />
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleOptionSelect("clipart")}>
+            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+              <Palette className="h-5 w-5 text-green-600" />
             </div>
-          </AspectRatio>
+            <div>
+              <label htmlFor="option-clipart" className="text-lg font-semibold cursor-pointer">Clipart</label>
+              <div className="w-16 h-1 bg-yellow-500 rounded mt-1"></div>
+            </div>
+          </div>
         </div>
-      </div>
+        
+        {/* Option for additional image - shown as an example from the reference */}
+        <div className="mt-2 text-center">
+          <span className="text-gray-500 text-sm">+$4.99 for another image</span>
+        </div>
+      </RadioGroup>
       
       {/* Text Fields Panel */}
       {showTextFields && (
@@ -329,6 +343,7 @@ const DesignOptions = ({
               onClick={() => {
                 onImageSelect(null);
                 setShowImageUpload(false);
+                setSelectedOption("none");
               }}
               className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
@@ -525,12 +540,6 @@ const DesignOptions = ({
           </div>
         </div>
       )}
-      
-      <div className="mt-10">
-        <button className="w-full py-4 bg-yellow-400 text-black text-xl font-bold rounded-full hover:bg-yellow-500 transition-colors">
-          Skip
-        </button>
-      </div>
     </div>
   );
 };
