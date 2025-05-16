@@ -52,14 +52,20 @@ const DesignOptions = ({
 
   // Sample cliparts
   const allCliparts = [
-    { src: 'https://via.placeholder.com/100?text=Graduation', alt: 'Graduation Cap', category: 'Graduation' },
-    { src: 'https://via.placeholder.com/100?text=2024', alt: 'Class of 2024', category: 'Graduation' },
-    { src: 'https://via.placeholder.com/100?text=Star', alt: 'Star', category: 'Birthday' },
-    { src: 'https://via.placeholder.com/100?text=Heart', alt: 'Heart', category: 'Wedding' },
-    { src: 'https://via.placeholder.com/100?text=Tree', alt: 'Tree', category: 'Holiday' },
-    { src: 'https://via.placeholder.com/100?text=Cake', alt: 'Cake', category: 'Birthday' },
-    { src: 'https://via.placeholder.com/100?text=Ring', alt: 'Wedding Ring', category: 'Wedding' },
-    { src: 'https://via.placeholder.com/100?text=Gift', alt: 'Gift Box', category: 'Holiday' },
+    { src: '/images/cliparts1.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts2.avif', alt: 'Class of 2024', category: 'Graduation' },
+    { src: '/images/cliparts3.avif', alt: 'Star', category: 'Birthday' },
+    { src: '/images/cliparts4.avif', alt: 'Heart', category: 'Wedding' },
+    { src: '/images/cliparts5.avif', alt: 'Tree', category: 'Holiday' },
+    { src: '/images/cliparts6.avif', alt: 'Cake', category: 'Birthday' },
+    { src: '/images/cliparts7.avif', alt: 'Wedding Ring', category: 'Wedding' },
+    { src: '/images/cliparts8.avif', alt: 'Gift Box', category: 'Holiday' },
+    { src: '/images/cliparts9.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts10.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts11.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts12.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts13.avif', alt: 'Graduation Cap', category: 'Graduation' },
+    { src: '/images/cliparts14.avif', alt: 'Graduation Cap', category: 'Graduation' },
   ];
 
   const filteredCliparts = allCliparts.filter(
@@ -505,7 +511,7 @@ const DesignOptions = ({
             </div>
             
             <p className="text-gray-600 text-sm text-center">
-              Since M&M'S are round, it doesn't matter if your<br />
+              Since Cavellea are round, it doesn't matter if your<br />
               image is upside down or sideways!
             </p>
             

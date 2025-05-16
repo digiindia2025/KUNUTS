@@ -21,9 +21,11 @@ const Customize = () => {
   
   // ye state managemanet for design customizations
   const [selectedImage, setSelectedImage] = useState(null);
+   // <- new
   const [firstLine, setFirstLine] = useState('');
   const [secondLine, setSecondLine] = useState('');
   const [selectedFontStyle, setSelectedFontStyle] = useState('Bold');
+  const [selectedClipart, setSelectedClipart] = useState(null);
 
   const handleColorSelection = (colors) => {
     setSelectedColors(colors);
@@ -109,28 +111,7 @@ const Customize = () => {
                 selectedFontStyle={selectedFontStyle}
               />
             </div>
-            
-            {/* Design Options Sidebar - Takes 2/5 of the width on large screens */}
-            {/* <div className="lg:col-span-2">
-              <DesignOptions 
-                onImageSelect={setSelectedImage} 
-                onTextChange={(first, second) => {
-                  setFirstLine(first);
-                  setSecondLine(second);
-                }} 
-                onFontStyleChange={setSelectedFontStyle}
-                firstLine={firstLine}
-                secondLine={secondLine}
-                selectedFontStyle={selectedFontStyle}
-                selectedImage={selectedImage}
-              />
-            </div>
-          </div>
-        );
-      default:
-        return <div>Invalid step</div>;
-    }
-  }; */}
+           
 
    {/* Design Options and Preview Circles */}
             <div className="lg:col-span-2">
@@ -148,11 +129,13 @@ const Customize = () => {
                     secondLine={secondLine}
                     selectedFontStyle={selectedFontStyle}
                     selectedImage={selectedImage}
+                   
+                    onClipartSelect={setSelectedClipart} // Pass the setter to use it
                   />
                 </div>
                 
                 {/* Preview circles on the right */}
-                <div className="flex flex-col space-y-8 items-center justify-center pl-4">
+                <div className="flex flex-col space-y-10 items-center justify-center pl-14">
                   {/* Image preview circle */}
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center ${selectedImage ? 'border-2 border-black' : 'border border-gray-300 border-dashed'}`}>
                     {selectedImage ? (
@@ -176,13 +159,13 @@ const Customize = () => {
                   
                   {/* Clipart preview circle */}
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') 
-                      ? 'border-2 border-black' 
-                      : 'border border-gray-300 border-dashed'
+                   selectedClipart 
+    ? 'border-2 border-black' 
+    : 'border border-gray-300 border-dashed'
                   }`}>
                     {selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') ? (
                       <img 
-                        src={selectedImage}
+                        src={selectedClipart}
                         alt="Selected Clipart" 
                         className="w-12 h-12 object-contain"
                       />
