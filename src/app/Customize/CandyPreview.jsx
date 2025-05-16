@@ -38,7 +38,7 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
       if (selectedColors.length === 0) return [];
       
       const newCandies = [];
-      const count = 40; // Number of candies to generate
+      const count = 100; // Number of candies to generate
       
       // Determine what customization options we have
       const hasText = firstLine || secondLine;
@@ -167,7 +167,9 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
                   }}
                 >
                   {!hasCustomization && (
-                    <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}>m</span>
+                    <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}></span>
+                     // <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}>m</span>
+
                   )}
                   
                   {candy.contentType === 'text' && hasText && (

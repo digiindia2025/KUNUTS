@@ -99,7 +99,7 @@ const DesignOptions = ({
               <h3 className="text-xl font-bold text-gray-800 mb-1">Image</h3>
               <div className="w-16 h-1 bg-yellow-500 rounded"></div>
             </div>
-          </AspectRatio>
+          </AspectRatio>  
         </div>
         
         {/* Text Option */}
