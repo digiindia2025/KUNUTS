@@ -55,7 +55,7 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
         const y = 10 + Math.random() * 110; // 5-95% of height
         
         // Consistent size for all candies (36-40px)
-        const size = 50 + Math.random() * 5;
+        const size = 60 + Math.random() * 5;
         
         // Random z-index for layering
         const zIndex = Math.floor(Math.random() * 10);

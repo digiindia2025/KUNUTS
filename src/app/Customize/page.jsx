@@ -21,9 +21,11 @@ const Customize = () => {
   
   // ye state managemanet for design customizations
   const [selectedImage, setSelectedImage] = useState(null);
+   // <- new
   const [firstLine, setFirstLine] = useState('');
   const [secondLine, setSecondLine] = useState('');
   const [selectedFontStyle, setSelectedFontStyle] = useState('Bold');
+  const [selectedClipart, setSelectedClipart] = useState(null);
 
   const handleColorSelection = (colors) => {
     setSelectedColors(colors);
@@ -127,6 +129,8 @@ const Customize = () => {
                     secondLine={secondLine}
                     selectedFontStyle={selectedFontStyle}
                     selectedImage={selectedImage}
+                   
+                    onClipartSelect={setSelectedClipart} // Pass the setter to use it
                   />
                 </div>
                 
@@ -155,13 +159,13 @@ const Customize = () => {
                   
                   {/* Clipart preview circle */}
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') 
-                      ? 'border-2 border-black' 
-                      : 'border border-gray-300 border-dashed'
+                   selectedClipart 
+    ? 'border-2 border-black' 
+    : 'border border-gray-300 border-dashed'
                   }`}>
                     {selectedImage && typeof selectedImage !== 'object' && selectedImage.includes('placeholder.com') ? (
                       <img 
-                        src={selectedImage}
+                        src={selectedClipart}
                         alt="Selected Clipart" 
                         className="w-12 h-12 object-contain"
                       />
