@@ -43,7 +43,8 @@ const ColorPicker = ({ selectedColors, onSelectColor, maxSelections = 3 }) => {
   return (
     <div className="mt-6">
       <div className="sidebar-container">
-        <div className="bg-white p-4 rounded-lg w-full shadow">
+        <div className="bg-white p-4 rounded-lg shadow">
+          {/* yaha ham select color ke dive ko manage kreneg 🔝 */}
           <h3 className="text-xl font-bold mb-4">Select Colors</h3>
 
           {colorRows.map((row, rowIndex) => (
