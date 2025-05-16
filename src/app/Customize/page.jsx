@@ -9,14 +9,17 @@ import DesignOptions from '../Customize/DesignOptions';
 import { toast } from "sonner";
 // import StepNavigation from '../components/StepNavigation';
 
-const MAX_COLOR_SELECTIONS = 3;
+const MAX_COLOR_SELECTIONS = 5;
+
+
+// Mera total three page ka hai case 1 , case 2, and case 3
 
 const Customize = () => {
   const [selectedColors, setSelectedColors] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
   
-  // Add state for design customizations
+  // ye state managemanet for design customizations
   const [selectedImage, setSelectedImage] = useState(null);
   const [firstLine, setFirstLine] = useState('');
   const [secondLine, setSecondLine] = useState('');
@@ -53,11 +56,12 @@ const Customize = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 ">    
+          {/* manage  kro select color wale div ko yaha se 🔝 */}
             {/* Main content area - Takes 3/5 of the width on large screens */}
             <div className="lg:col-span-3 bg-white rounded-xl shadow-md p-6">
               <h2 className="text-4xl font-bold mb-4">choose up to three colors</h2>
-              <p className="text-gray-600 mb-6">Light colors print best. Dark colors identified with '*' cannot be customized.<br />Click color again to remove it.</p>
+              <p className="text-gray-600 mb-6">///////////////////////////Light colors print best. ///////////////////////////////<br />Click color again to remove it.</p>
               
               <CandyPreview 
                 selectedColors={selectedColors} 
@@ -69,7 +73,7 @@ const Customize = () => {
             </div>
             
             {/* Color Selection Sidebar - Takes 2/5 of the width on large screens */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 ml-4 w-1/1">
               <ColorPicker 
                 selectedColors={selectedColors} 
                 onSelectColor={handleColorSelection} 

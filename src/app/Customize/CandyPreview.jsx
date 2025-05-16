@@ -5,7 +5,7 @@ import { toast } from "sonner";
 const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, selectedFontStyle }) => {
   const [candies, setCandies] = useState([]);
   
-  // Get the color values from the keys
+  // ye clor collection ka function hai
   const getColorValue = (colorKey) => {
     const colorOptions = [
       { name: 'Dark Blue', value: '#000080', key: 'darkBlue' },
@@ -38,7 +38,8 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
       if (selectedColors.length === 0) return [];
       
       const newCandies = [];
-      const count = 100; // Number of candies to generate
+      const count = 100; 
+      // yaha se const count = 100;  ham jitna chahe utna candy bana sakte hai
       
       // Determine what customization options we have
       const hasText = firstLine || secondLine;
@@ -50,11 +51,11 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
         const colorKey = selectedColors[Math.floor(Math.random() * selectedColors.length)];
         
         // Random position within the container
-        const x = 5 + Math.random() * 90; // 5-95% of width
-        const y = 5 + Math.random() * 90; // 5-95% of height
+        const x = 10 + Math.random() * 110; // 5-95% of width
+        const y = 10 + Math.random() * 110; // 5-95% of height
         
         // Consistent size for all candies (36-40px)
-        const size = 36 + Math.random() * 4;
+        const size = 50 + Math.random() * 5;
         
         // Random z-index for layering
         const zIndex = Math.floor(Math.random() * 10);
@@ -136,6 +137,35 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
   
   const fontClass = getFontFamily(selectedFontStyle);
 
+  // Get image source from image object or direct string
+  const getImageSource = () => {
+    if (!selectedImage) return null;
+    return typeof selectedImage === 'object' ? selectedImage.src : selectedImage;
+  };
+
+  // Get image style transformations
+  const getImageStyle = (isDark) => {
+    if (!selectedImage) return {};
+    
+    const baseStyle = {
+      filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)',
+      maxWidth: '70%',
+      maxHeight: '70%',
+    };
+
+    // Add transform style if the image has transformation data
+    if (typeof selectedImage === 'object' && selectedImage.zoom) {
+      // For candies, we just apply a more subtle version of the transformations
+      const scale = 1 + ((selectedImage.zoom - 100) / 200); // Less dramatic zoom
+      return {
+        ...baseStyle,
+        transform: `scale(${scale}) rotate(${selectedImage.rotation / 2}deg)`
+      };
+    }
+
+    return baseStyle;
+  };
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="relative w-full h-[400px] bg-white rounded-lg overflow-hidden border border-gray-200">
@@ -168,7 +198,7 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
                 >
                   {!hasCustomization && (
                     <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}></span>
-                     // <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}>m</span>
+                    //  <span className={`text-${isDark ? 'white' : 'gray-700'} text-lg font-bold`}>m</span>
 
                   )}
                   
@@ -182,14 +212,10 @@ const CandyPreview = ({ selectedColors, selectedImage, firstLine, secondLine, se
                   {candy.contentType === 'image' && hasImage && (
                     <div className="w-full h-full flex items-center justify-center">
                       <img 
-                        src={selectedImage} 
+                        src={getImageSource()} 
                         alt="Customized" 
-                        className="w-3/4 h-3/4 object-contain"
-                        style={{
-                          filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)',
-                          maxWidth: '70%',
-                          maxHeight: '70%',
-                        }}
+                        className="object-contain"
+                        style={getImageStyle(isDark)}
                       />
                     </div>
                   )}

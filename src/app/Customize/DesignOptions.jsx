@@ -1,7 +1,8 @@
-
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { ImageIcon, TypeIcon, Palette } from 'lucide-react';
+import { ImageIcon, TypeIcon, Palette, MoveHorizontal, ZoomIn, ZoomOut, RotateCw } from 'lucide-react';
+import { toast } from "sonner";
+import { Slider } from "@/components/ui/slider";
 
 const DesignOptions = ({ 
   onImageSelect, 
@@ -19,10 +20,21 @@ const DesignOptions = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const fileInputRef = useRef(null);
+  const imageRef = useRef(null);
+  const containerRef = useRef(null);
 
   const [tempFirstLine, setTempFirstLine] = useState(firstLine);
   const [tempSecondLine, setTempSecondLine] = useState(secondLine);
   const [tempFontStyle, setTempFontStyle] = useState(selectedFontStyle);
+  
+  // Image editing state
+  const [showImageEditor, setShowImageEditor] = useState(false);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [editingImage, setEditingImage] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [imageZoom, setImageZoom] = useState(100); // Range 50-150
+  const [imageRotation, setImageRotation] = useState(0); // Range 0-360
 
   const fontStyles = [
     "Bold",
@@ -54,8 +66,18 @@ const DesignOptions = ({
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      onImageSelect(imageUrl);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageUrl = event.target.result;
+        setEditingImage(imageUrl);
+        setShowImageEditor(true);
+        setShowImageUpload(false);
+        // Reset image transformation values
+        setImagePosition({ x: 0, y: 0 });
+        setImageZoom(100);
+        setImageRotation(0);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -76,6 +98,75 @@ const DesignOptions = ({
     setShowClipartPanel(false);
   };
 
+  // Mouse event handlers for image dragging
+  const handleMouseDown = (e) => {
+    if (imageRef.current) {
+      setIsDragging(true);
+      setDragStart({ 
+        x: e.clientX - imagePosition.x, 
+        y: e.clientY - imagePosition.y 
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const container = containerRef.current;
+    if (!container || !imageRef.current) return;
+
+    const containerRect = container.getBoundingClientRect();
+    
+    // Calculate new position relative to the container
+    let newX = e.clientX - dragStart.x;
+    let newY = e.clientY - dragStart.y;
+
+    // Limit the drag area to the container boundaries
+    const imageRect = imageRef.current.getBoundingClientRect();
+    const maxX = containerRect.width - imageRect.width;
+    const maxY = containerRect.height - imageRect.height;
+    
+    newX = Math.max(-maxX/2, Math.min(newX, maxX/2));
+    newY = Math.max(-maxY/2, Math.min(newY, maxY/2));
+    
+    setImagePosition({ x: newX, y: newY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add mouse event listeners when dragging is active
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragStart]);
+
+  const handleImageConfirm = () => {
+    // Pass the edited image with transformation data
+    onImageSelect({
+      src: editingImage,
+      position: imagePosition,
+      zoom: imageZoom,
+      rotation: imageRotation
+    });
+    setShowImageEditor(false);
+    toast.success("Image has been added to your candy design!");
+  };
+
+  const handleResetImageEdits = () => {
+    setImagePosition({ x: 0, y: 0 });
+    setImageZoom(100);
+    setImageRotation(0);
+  };
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
       <h2 className="text-3xl font-bold mb-6 text-center">Design Your Candy</h2>
@@ -89,6 +180,7 @@ const DesignOptions = ({
             setShowImageUpload(true);
             setShowTextFields(false);
             setShowClipartPanel(false);
+            setShowImageEditor(false);
           }}
         >
           <AspectRatio ratio={1/1} className="bg-white">
@@ -99,7 +191,7 @@ const DesignOptions = ({
               <h3 className="text-xl font-bold text-gray-800 mb-1">Image</h3>
               <div className="w-16 h-1 bg-yellow-500 rounded"></div>
             </div>
-          </AspectRatio>  
+          </AspectRatio>
         </div>
         
         {/* Text Option */}
@@ -109,6 +201,7 @@ const DesignOptions = ({
             setShowTextFields(true);
             setShowImageUpload(false);
             setShowClipartPanel(false);
+            setShowImageEditor(false);
           }}
         >
           <AspectRatio ratio={1/1} className="bg-white">
@@ -129,6 +222,7 @@ const DesignOptions = ({
             setShowClipartPanel(true);
             setShowTextFields(false);
             setShowImageUpload(false);
+            setShowImageEditor(false);
           }}
         >
           <AspectRatio ratio={2/1} className="bg-white">
@@ -208,10 +302,10 @@ const DesignOptions = ({
         <div className="mt-6 p-4 border rounded-md shadow-md">
           <h4 className="text-lg font-bold mb-4">Upload Image</h4>
           
-          {selectedImage && (
+          {selectedImage && !showImageEditor && (
             <div className="mb-4">
               <img 
-                src={selectedImage} 
+                src={typeof selectedImage === 'object' ? selectedImage.src : selectedImage} 
                 alt="Selected" 
                 className="max-h-40 mx-auto object-contain" 
               />
@@ -254,7 +348,7 @@ const DesignOptions = ({
               disabled={!agreeTerms}
               className={`px-4 py-2 rounded-md ${
                 agreeTerms 
-                  ? "bg-yellow-500 text-white hover:bg-yellow-600" 
+                  ? "bg-yellow-400 text-black hover:bg-yellow-500" 
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               } transition-colors`}
             >
@@ -319,6 +413,115 @@ const DesignOptions = ({
                 />
               </div>
             ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Inline Image Editor (not in a dialog) */}
+      {showImageEditor && (
+        <div className="mt-6 p-4 border rounded-md shadow-md">
+          <h4 className="text-lg font-bold mb-4">Edit Your Image</h4>
+          
+          <div className="flex flex-col items-center space-y-6 py-4">
+            <div 
+              ref={containerRef}
+              className="bg-gray-700 w-64 h-64 rounded-full flex items-center justify-center overflow-hidden relative"
+            >
+              {editingImage && (
+                <img 
+                  ref={imageRef}
+                  src={editingImage} 
+                  alt="Editing" 
+                  className="object-cover cursor-move"
+                  style={{
+                    transform: `translate(${imagePosition.x}px, ${imagePosition.y}px) rotate(${imageRotation}deg) scale(${imageZoom / 100})`,
+                    transition: isDragging ? 'none' : 'transform 0.2s ease',
+                    cursor: isDragging ? 'grabbing' : 'grab',
+                  }}
+                  onMouseDown={handleMouseDown}
+                />
+              )}
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <MoveHorizontal className="h-5 w-5 text-gray-500" />
+              <p className="text-center">Drag image to reposition photo</p>
+            </div>
+
+            <div className="w-full space-y-4">
+              {/* Zoom control */}
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <label className="text-sm font-medium">Zoom</label>
+                  <span className="text-sm">{imageZoom}%</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <ZoomOut className="h-4 w-4 text-gray-500" />
+                  <Slider
+                    value={[imageZoom]} 
+                    min={50}
+                    max={150}
+                    step={1}
+                    onValueChange={(value) => setImageZoom(value[0])}
+                    className="flex-1"
+                  />
+                  <ZoomIn className="h-4 w-4 text-gray-500" />
+                </div>
+              </div>
+
+              {/* Rotation control */}
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <label className="text-sm font-medium">Rotation</label>
+                  <span className="text-sm">{imageRotation}°</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RotateCw className="h-4 w-4 text-gray-500" />
+                  <Slider
+                    value={[imageRotation]} 
+                    min={0}
+                    max={360}
+                    step={5}
+                    onValueChange={(value) => setImageRotation(value[0])}
+                    className="flex-1"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-gray-600 text-sm text-center">
+              Since M&M'S are round, it doesn't matter if your<br />
+              image is upside down or sideways!
+            </p>
+            
+            <button 
+              onClick={handleResetImageEdits}
+              className="flex items-center space-x-2 text-gray-800 hover:text-gray-600"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10.146 8.146a.5.5 0 01.708 0L12 9.293l1.146-1.147a.5.5 0 11.708.708L12.707 10l1.147 1.146a.5.5 0 01-.708.708L12 10.707l-1.146 1.147a.5.5 0 010-.708z" clipRule="evenodd" />
+              </svg>
+              <span>Reset position</span>
+            </button>
+            
+            <div className="flex w-full justify-between space-x-4">
+              <button 
+                onClick={() => {
+                  setShowImageEditor(false);
+                  setShowImageUpload(true);
+                }}
+                className="w-full border-2 border-brown-800 text-brown-800 font-bold py-3 px-6 rounded-full"
+              >
+                back
+              </button>
+              <button 
+                onClick={handleImageConfirm}
+                className="w-full bg-yellow-400 text-black font-bold py-3 px-6 rounded-full hover:bg-yellow-500"
+              >
+                confirm
+              </button>
+            </div>
           </div>
         </div>
       )}
