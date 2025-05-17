@@ -11,17 +11,13 @@ import Tabs from "@/components/product-page/Tabs";
 import { Product } from "@/types/product.types";
 import { notFound } from "next/navigation";
 
-const data: Product[] = [
+const data = [
   ...newArrivalsData,
   ...topSellingData,
   ...relatedProductData,
 ];
 
-export default function ProductPage({
-  params,
-}: {
-  params: { slug: string[] };
-}) {
+export default function ProductPage({ params }) {
   const productData = data.find(
     (product) => product.id === Number(params.slug[0])
   );

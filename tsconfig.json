@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/homepage/Header/index.jsx", "src/app/Benefits/page.jsx", "src/app/Blog/page.jsx", "src/app/BulkOrder/page.jsx", "src/app/cart/page.jsx", "src/app/CheckOut/page.jsx", "src/app/Choose/page.jsx", "src/app/Contact/page.jsx", "src/app/coupons/page.jsx", "src/app/gift-cards/page.jsx", "src/app/Guide/page.jsx", "src/app/notifications/page.jsx", "src/app/orders/page.jsx", "src/app/Payment/page.jsx", "src/app/policy/page.jsx", "src/app/Privacy/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/homepage/Header/index.jsx", "src/app/Benefits/page.jsx", "src/app/Blog/page.jsx", "src/app/BulkOrder/page.jsx", "src/app/cart/page.jsx", "src/app/CheckOut/page.jsx", "src/app/Choose/page.jsx", "src/app/Contact/page.jsx", "src/app/coupons/page.jsx", "src/app/gift-cards/page.jsx", "src/app/Guide/page.jsx", "src/app/notifications/page.jsx", "src/app/orders/page.jsx", "src/app/Payment/page.jsx", "src/app/policy/page.jsx", "src/app/Privacy/page.jsx", "src/app/products/page.jsx", "src/app/profile/page.jsx", "src/app/Shiping/page.jsx", "src/app/shop/product/[...slug]/page.jsx", "src/app/shop/page.jsx", "src/app/signin/page.jsx", "src/app/providers.jsx"],
   "exclude": ["node_modules"]
 }

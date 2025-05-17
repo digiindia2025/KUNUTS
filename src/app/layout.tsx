@@ -5,7 +5,7 @@ import TopBanner from "@/components/layout/Banner/TopBanner";
 import TopNavbar from "@/components/layout/Navbar/TopNavbar";
 import Footer from "@/components/layout/Footer";
 import HolyLoader from "holy-loader";
-import Providers from "./providers";
+import Providers from "./providers.jsx";
 
 export const metadata: Metadata = {
   title: "Dry_Fruits",
