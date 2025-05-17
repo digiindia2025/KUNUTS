@@ -1,7 +1,7 @@
 "use client";
 
-import BreadcrumbCart from "@/components/cart-page/BreadcrumbCart";
-import ProductCard from "@/components/cart-page/ProductCard";
+import BreadcrumbCart from "@/components/cart-page/BreadcrumbCart.jsx";
+import ProductCard from "@/components/cart-page/ProductCard.jsx";
 import Button from "@/components/ui/button";
 import InputGroup from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
