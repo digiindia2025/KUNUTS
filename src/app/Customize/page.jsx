@@ -9,7 +9,7 @@ import DesignOptions from '../Customize/DesignOptions';
 import { toast } from "sonner";
 // import StepNavigation from '../components/StepNavigation';
 
-const MAX_COLOR_SELECTIONS = 5;
+const MAX_COLOR_SELECTIONS = 3;
 
 
 // Mera total three page ka hai case 1 , case 2, and case 3
